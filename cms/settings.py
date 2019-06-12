@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cms'
+    'cms',
+    'index',
+    'adminIndex'
 ]
 
 MIDDLEWARE = [
@@ -76,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cmsD',
-        'USER':'cmsD',
+        'USER': 'cmsD',
         'PASSWORD': 'C6hxc5Bk8zZiTPth',
         'HOST': '103.45.174.4',
         'PORT': '3306'
@@ -117,4 +119,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# 支持多个文件夹存放静态文件
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'))
 STATIC_URL = '/static/'
