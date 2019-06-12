@@ -1,0 +1,13 @@
+ul, li, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    color: black;
+}
+#myTab{
+    margin-top: 10px;
+}
+#myTabContent{
+    margin-top: 20px;
+}

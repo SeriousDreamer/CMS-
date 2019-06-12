@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/adminIndex.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#home" data-toggle="tab">
+                    后台主页
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" id="myTabDrop2" class="dropdown-toggle"
+                   data-toggle="dropdown">后台管理<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2">
+                    <li><a href="#permission" tabindex="-1" data-toggle="tab">权限管理</a></li>
+                    <li><a href="#article" tabindex="-1" data-toggle="tab">文章审核</a></li>
+                    <li><a href="#sort" tabindex="-1" data-toggle="tab">栏目管理</a></li>
+                    <li><a href="#templates" tabindex="-1" data-toggle="tab">模板管理</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                   data-toggle="dropdown">网站管理
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                    <li><a href="#base" tabindex="-1" data-toggle="tab">基础设置</a></li>
+                    <li><a href="#article-list" tabindex="-1" data-toggle="tab">文章管理</a></li>
+                    <li><a href="#vip" tabindex="-1" data-toggle="tab">会员管理</a></li>
+                    <li><a href="#static" tabindex="-1" data-toggle="tab">资源管理</a></li>
+                    <li><a href="#comment" tabindex="-1" data-toggle="tab">评论管理</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content container">
+            <div class="tab-pane fade in active" id="home">
+                <p>后台主页，用于显示网站访问量，最新文章列表，登录信息，实时在线信息等。</p>
+            </div>
+            <div class="tab-pane fade" id="permission">
+                <p>这是权限管理页面</p>
+            </div>
+            <div class="tab-pane fade" id="article">
+                <p>这是文章审核页面</p>
+            </div>
+            <div class="tab-pane fade" id="sort">
+                <p>这是栏目管理页面</p>
+            </div>
+            <div class="tab-pane fade" id="templates">
+                <p>这是模板管理页面</p>
+            </div>
+            <div class="tab-pane fade" id="base">
+                <p>这是网站基础设置页面</p>
+            </div>
+            <div class="tab-pane fade" id="article-list">
+                <p>这是文章列表页面</p>
+            </div>
+            <div class="tab-pane fade" id="vip">
+                <p>这是会员列表管理</p>
+            </div>
+            <div class="tab-pane fade" id="static">
+                <p>这是资源管理页面</p>
+            </div>
+            <div class="tab-pane fade" id="comment">
+                <p>这是评论管理页面</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
