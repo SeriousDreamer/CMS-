@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="/static/css/admin/base.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/admin/login.css" type="text/css">
+</head>
+<body>
+<script>
+   function refresh_check_code(ths) {
+      ths.src += '?';
+{# src后面加问好会自动刷新验证码img的src#}
+     }
+</script>
+    <div id="top">
+        <a href="">
+            <img src="/static/images/login/header/logo.png">
+        </a>
+        <span>欢迎登录</span>
+    </div>
+    <div id="main">
+        <form action="/logindo/dologin" method="post">
+{#            防止跨站攻击#}
+            {% csrf_token %}
+            <div class="content">
+                <p>
+                    登录
+                    <a href="">新用户注册</a>
+                </p>
+                <div class="text">
+                    <input type="text" name="uname" placeholder="请输入用户名">
+                    <img src="/static/images/login/user.png">
+                </div>
+                <div class="text pwd">
+                    <input type="password" name="upwd" placeholder="请输入密码">
+                    <img src="/static/images/login/password.png">
+                </div>
+
+                <div class="validate">
+                    <img src="/logindo/create_code/" alt="验证码" id="check_code_img"
+                    onclick="refresh_check_code(this)">
+                    <input type="text" name="validate" placeholder="请输入验证码">
+                </div>
+                <div class="savePwd">
+                    <input type="checkbox" name="savePwd">自动登录
+                    <a href="">忘记密码？</a>
+                </div>
+                <!--<div class="text dl">-->
+                <!--<button>登录</button>-->
+                <!--</div>-->
+                <input type="submit" class="login" value="登录">
+            </div>
+            {{ rlt }}
+        </form>
+    </div>
+    <div id="bottom"></div>
+</body>
+</html>
+

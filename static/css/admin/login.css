@@ -1,0 +1,119 @@
+/*外围结构样式*/
+#top,#bottom{
+    width: 1000px;
+    margin: 0 auto;
+}
+/*1.顶部*/
+#top{
+    height: 50px;
+    line-height: 30px;
+}
+#top img{
+    width: 168px;
+    border-radius: 10px;
+    /*调整行内块元素左右元素的垂直对齐方式*/
+    vertical-align: bottom;
+}
+#top span{
+    font-size: 24px;
+    margin-left: 10px;
+    color: #4f4e4d;
+}
+/*2.主体*/
+#main{
+    width: 100%;
+    height: 560px;
+    background: url("/static/images/login/regist.jpg");
+    background-size: cover;
+}
+#main form{
+    width: 280px;
+    height: 375px;
+    float: right;
+    margin-top: 120px;
+    margin-right: 120px;
+    background: rgba(0,0,0,.3);
+}
+#main .content{
+    margin: 10px;
+}
+.content p{
+    font-size: 18px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+}
+.content p a{
+    float: right;
+    color: #fff;
+    font-size: 12px;
+    margin-right: 15px;
+    margin-top: 3px;
+}
+.text{
+    position: relative;
+}
+.text input{
+    width: 218px;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.text img{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0px;
+    top: 22px;
+}
+.text input[type="password"]{
+
+}
+.pwd{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+
+.validate{
+    height: 70px;
+}
+.validate input{
+    width: 102px;
+    border: 1px solid #ddd;
+    float: right;
+    padding: 10px 20px;
+    border-radius:5px ;
+}
+
+.savePwd{
+    color: #fff;
+    margin-bottom: 15px;
+}
+.savePwd input{
+    /*按钮自带四个方向的外边距*/
+    vertical-align: middle;
+}
+.savePwd a{
+    float: right;
+    color: #fff;
+}
+.login{
+    width: 260px;
+    height: 35px;
+    background: #997679;
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+.login:hover{
+    background: rgba(0,0,0,0.5);
+}
+#check_code_img{
+    width: 110px;
+    margin-top: 5px;
+}

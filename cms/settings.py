@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cms',
     'index',
-    'adminIndex'
+    'adminIndex',
+    'login'
 ]
 
 MIDDLEWARE = [
