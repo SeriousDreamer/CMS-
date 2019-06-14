@@ -3,8 +3,13 @@ from django.views.decorators import csrf
 
 
 def do_login(request):
-    ctx = {}
+
     if request.POST:
-        ctx['result'] = request.POST
+        ctx = request.POST
+        check_code = request.session['check_code']
+        name = ctx['uname']
+        password = ctx['upwd']
+        validate = ctx['validate']
         print(ctx)
-    return render(request, 'post.html', ctx)
+        print(check_code)
+
