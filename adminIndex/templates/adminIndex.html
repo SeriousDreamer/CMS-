@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" href="/static/css/admin/adminIndex.css">
-    <script src="/static/js/jquery-3.3.1.js"></script>
-    <script src="/static/js/popper.js"></script>
-    <script src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+    <title>后台页面</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin/adminIndex.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
+    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/admin/adminIndex.js' %}" type="application/javascript"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -76,6 +78,7 @@
             <div class="tab-pane fade" id="article-list">
                 {% block articleLists %}
                 <p>这是文章列表页面</p>
+                    <a href="/luna/articleList">点击</a>
                 {% endblock articleLists %}
             </div>
             <div class="tab-pane fade" id="vip">

@@ -29,7 +29,7 @@ def create_code():
     height = 60
     image = Image.new('RGB', (width, height), (255, 255, 255))
     # 创建Font对象:
-    font = ImageFont.truetype('Arial.ttf', 36)
+    font = ImageFont.truetype('SimHei.ttf', 36)
     # 创建Draw对象:
     draw = ImageDraw.Draw(image)
     # 填充每个像素:
@@ -50,3 +50,4 @@ def create_code():
     result = CHECK_CODE
     CHECK_CODE = ""
     return result
+

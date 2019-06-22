@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'index',
     'adminIndex',
     'login',
-    'manager'
+    'manager',
+    'articleManagement',
 ]
 
 MIDDLEWARE = [

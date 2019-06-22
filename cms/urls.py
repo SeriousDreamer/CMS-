@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from adminIndex import views
+from adminIndex import views as adminView
 from manager import views as manager
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^luna$', adminView.show_index),
     url(r'^luna/', include('adminIndex.urls')),
     url(r'^logindo/', include('login.urls')),
     url(r'^add/', manager.add),
