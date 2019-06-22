@@ -44,34 +44,54 @@
         </ul>
         <div id="myTabContent" class="tab-content container">
             <div class="tab-pane fade in active" id="home">
+                {% block adminIndex %}
                 <p>后台主页，用于显示网站访问量，最新文章列表，登录信息，实时在线信息等。</p>
+                {% endblock adminIndex %}
             </div>
             <div class="tab-pane fade" id="permission">
+                {% block permission %}
                 <p>这是权限管理页面</p>
+                {% endblock permission %}
             </div>
             <div class="tab-pane fade" id="article">
+                {% block theArticleReview %}
                 <p>这是文章审核页面</p>
+                {% endblock theArticleReview %}
             </div>
             <div class="tab-pane fade" id="sort">
+                {% block colume %}
                 <p>这是栏目管理页面</p>
+                {% endblock colume %}
             </div>
             <div class="tab-pane fade" id="templates">
+                {% block templates %}
                 <p>这是模板管理页面</p>
+                {% endblock templates %}
             </div>
             <div class="tab-pane fade" id="base">
+                {% block webBase %}
                 <p>这是网站基础设置页面</p>
+                {% endblock webBase%}
             </div>
             <div class="tab-pane fade" id="article-list">
+                {% block articleLists %}
                 <p>这是文章列表页面</p>
+                {% endblock articleLists %}
             </div>
             <div class="tab-pane fade" id="vip">
+                {% block menberLists %}
                 <p>这是会员列表管理</p>
+                {% endblock menberLists %}
             </div>
             <div class="tab-pane fade" id="static">
+                {% block resource %}
                 <p>这是资源管理页面</p>
+                {% endblock resource %}
             </div>
             <div class="tab-pane fade" id="comment">
+                {% block comment %}
                 <p>这是评论管理页面</p>
+                {% endblock comment %}
             </div>
         </div>
 
