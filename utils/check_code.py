@@ -6,10 +6,11 @@ CHECK_CODE = ''
 
 # 随机字母:
 def rndChar():
-    single_char = chr(random.randint(65, 90))
+    single_char = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
+    nun = random.randint(0,58)
     global CHECK_CODE
-    CHECK_CODE += single_char
-    return single_char
+    CHECK_CODE += single_char[nun]
+    return single_char[nun]
 
 
 # 随机颜色1:
@@ -34,12 +35,16 @@ def create_code():
     # 填充每个像素:
     for x in range(width):
         for y in range(height):
-            draw.point((x, y), fill=rndColor())
+            draw.point((x, y), fill=(255, 255, 255))
     # 输出文字:
     for t in range(4):
         draw.text((60 * t + 10, 10), rndChar(), font=font, fill=rndColor2())
+    # 画出线
+    for i in range(4):
+        draw.line((random.randint(0, 240), random.randint(0, 60), random.randint(0, 240), random.randint(0, 60)),
+                  'cyan')
     # 模糊:
-    # image = image.filter(ImageFilter.BLUR)
+    image = image.filter(ImageFilter.BLUR)
     image.save('code.png', 'png')
     global CHECK_CODE
     result = CHECK_CODE
