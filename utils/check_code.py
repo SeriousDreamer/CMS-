@@ -41,4 +41,7 @@ def create_code():
     # 模糊:
     # image = image.filter(ImageFilter.BLUR)
     image.save('code.png', 'png')
-    return CHECK_CODE
+    global CHECK_CODE
+    result = CHECK_CODE
+    CHECK_CODE = ""
+    return result

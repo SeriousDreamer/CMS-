@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'cms',
     'index',
     'adminIndex',
-    'login'
+    'login',
+    'manager'
 ]
 
 MIDDLEWARE = [
