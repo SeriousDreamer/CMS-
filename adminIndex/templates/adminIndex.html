@@ -15,12 +15,12 @@
 <div class="container-fluid">
     <div class="row">
         <ul id="myTab" class="nav nav-tabs">
-            <li class="active">
+            <li class="{% if url == '/luna' or url == '/luna/'%}active{% endif %}" >
                 <a href="#home" data-toggle="tab">
                     后台主页
                 </a>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" >
                 <a href="#" id="myTabDrop2" class="dropdown-toggle"
                    data-toggle="dropdown">后台管理<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2">
@@ -30,14 +30,14 @@
                     <li><a href="#templates" tabindex="-1" data-toggle="tab">模板管理</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
+            <li class="dropdown" id="web">
                 <a href="#" id="myTabDrop1" class="dropdown-toggle"
                    data-toggle="dropdown">网站管理
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
                     <li><a href="#base" tabindex="-1" data-toggle="tab">基础设置</a></li>
-                    <li><a href="#article-list" tabindex="-1" data-toggle="tab">文章管理</a></li>
+                    <li><a id="articleList" href="#article-list" tabindex="-1" data-toggle="tab">文章管理</a></li>
                     <li><a href="#vip" tabindex="-1" data-toggle="tab">会员管理</a></li>
                     <li><a href="#static" tabindex="-1" data-toggle="tab">资源管理</a></li>
                     <li><a href="#comment" tabindex="-1" data-toggle="tab">评论管理</a></li>
@@ -45,53 +45,49 @@
             </li>
         </ul>
         <div id="myTabContent" class="tab-content container">
-            <div class="tab-pane fade in active" id="home">
+            <div class="tab-pane fade text-center" id="home">
                 {% block adminIndex %}
                 <p>后台主页，用于显示网站访问量，最新文章列表，登录信息，实时在线信息等。</p>
                 {% endblock adminIndex %}
             </div>
-            <div class="tab-pane fade" id="permission">
+            <div class="tab-pane fade text-center" id="permission">
                 {% block permission %}
                 <p>这是权限管理页面</p>
                 {% endblock permission %}
             </div>
-            <div class="tab-pane fade" id="article">
+            <div class="tab-pane fade text-center" id="article">
                 {% block theArticleReview %}
                 <p>这是文章审核页面</p>
                 {% endblock theArticleReview %}
             </div>
-            <div class="tab-pane fade" id="sort">
+            <div class="tab-pane fade text-center" id="sort">
                 {% block colume %}
                 <p>这是栏目管理页面</p>
                 {% endblock colume %}
             </div>
-            <div class="tab-pane fade" id="templates">
+            <div class="tab-pane fade text-center" id="templates">
                 {% block templates %}
                 <p>这是模板管理页面</p>
                 {% endblock templates %}
             </div>
-            <div class="tab-pane fade" id="base">
-                {% block webBase %}
+            <div class="tab-pane fade text-center" id="base">
                 <p>这是网站基础设置页面</p>
-                {% endblock webBase%}
+                <img src="{% static 'images/util/loading.gif' %}">
             </div>
-            <div class="tab-pane fade" id="article-list">
-                {% block articleLists %}
-                <p>这是文章列表页面</p>
-                    <a href="/luna/articleList">点击</a>
-                {% endblock articleLists %}
+            <div class="tab-pane fade text-center" id="article-list">
+                <img src="{% static 'images/util/loading.gif' %}">
             </div>
-            <div class="tab-pane fade" id="vip">
+            <div class="tab-pane fade text-center" id="vip">
                 {% block menberLists %}
                 <p>这是会员列表管理</p>
                 {% endblock menberLists %}
             </div>
-            <div class="tab-pane fade" id="static">
+            <div class="tab-pane fade text-center" id="static">
                 {% block resource %}
                 <p>这是资源管理页面</p>
                 {% endblock resource %}
             </div>
-            <div class="tab-pane fade" id="comment">
+            <div class="tab-pane fade text-center" id="comment">
                 {% block comment %}
                 <p>这是评论管理页面</p>
                 {% endblock comment %}

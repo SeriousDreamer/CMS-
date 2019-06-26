@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
-from django.views.decorators import csrf
 from manager.models import Manager
-from django.http import HttpResponse
 import hashlib
 
 
 def do_login(request):
+    """
+    登录逻辑处理函数
+    :param request:
+    :return:
+    """
     if request.POST:
         ctx = request.POST
         check_code = request.session['check_code'].lower()
@@ -29,6 +32,7 @@ def do_login(request):
         if name != sname or password != spassword:
             dic = {'status': '账号或密码错误'}
             return render(request, 'logins.html', dic)
+        # 经过上面验证成功后重定向到后台页面
         res = redirect('/luna/')
         res.set_cookie('uname',name)
         res.set_cookie('npwd',spassword)

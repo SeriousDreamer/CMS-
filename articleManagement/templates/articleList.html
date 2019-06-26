@@ -1,14 +1,68 @@
-{% extends 'adminIndex.html' %}
-{% block articleLists %}
-    <table>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>标题</td>
-            <td>特色图片</td>
-            <td>作者</td>
-            <td>分类目录</td>
-            <td>评论</td>
-            <td>日期</td>
-        </tr>
-    </table>
-{% endblock articleLists %}
+
+    {% load static %}
+    <div class="row articleFun">
+        <a class="btn btn-primary active" role="button" id="articleFun_all">所有文章</a>
+        <a href="#" class="btn btn-default active" role="button">写文章</a>
+        <a href="#" class="btn btn-default active" role="button">分类目录</a>
+    </div>
+    <div class="row article">
+        <div class="col-md-1 text-center"><input type="checkbox" id="articleMainCheck"></div>
+        <div class="col-md-2 text-left">标题</div>
+        <div class="col-md-2 text-center">特色图片</div>
+        <div class="col-md-2 text-center">作者</div>
+        <div class="col-md-2 text-center">分类</div>
+        <div class="col-md-1 text-center">评论</div>
+        <div class="col-md-2 text-center">日期</div>
+    </div>
+    {% for i in article %}
+    <div class="row articleRow">
+        <div class="col-md-1 text-center"><input type="checkbox" name="items" class="articleOtherCheck"></div>
+        <div class="col-md-2 text-left"><a href="#">{{ i.title }}</a> </div>
+        <div class="col-md-2 text-center "><img class="img-thumbnail img-rounded" src="{% static 'images/login/background.jpg' %}"
+                                   style="width: 60px;height: 60px;"></div>
+        <div class="col-md-2 text-center "><a href="#">{{ i.author }}</a></div>
+        <div class="col-md-2 text-center "><a href="#">{{ i.column }}</a></div>
+        <div class="col-md-1 text-center">{{ i.commentId }}</div>
+        <div class="col-md-2 text-center">{{ i.time }}</div>
+    </div>
+    {% endfor %}
+<script>
+    $('#articleFun_all').click(function () {
+        $.ajax({
+            async: true,
+            url: "/luna/web/articleList",
+            success: function(data){
+                $('#article-list').html(data)
+            }
+        });
+    });
+
+    $('#articleMainCheck').prop('checked', false);
+    for (var i = 0; i < $('.articleOtherCheck').length; i++) {
+        $('.articleOtherCheck').eq(i).prop('checked', false);
+    }
+    $('#articleMainCheck').click(function () {
+        if ($('#articleMainCheck').is(":checked")) {
+            for (var i = 0; i < $('.articleOtherCheck').length; i++) {
+                $('.articleOtherCheck').eq(i).prop('checked', true);
+            }
+        } else {
+            for (var i = 0; i < $('.articleOtherCheck').length; i++) {
+                $('.articleOtherCheck').eq(i).prop('checked', false);
+            }
+        }
+    });
+    $('.articleOtherCheck').click(function () {
+        var len = 0;
+        for (var i = 0; i < $('.articleOtherCheck').length; i++) {
+            if ($('.articleOtherCheck').eq(i).prop('checked')) {
+                len++;
+            }
+        }
+        if (len == $('.articleOtherCheck').length) {
+            $('#articleMainCheck').prop('checked', true);
+        } else {
+            $('#articleMainCheck').prop('checked', false);
+        }
+    });
+</script>

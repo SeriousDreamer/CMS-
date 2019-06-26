@@ -1,5 +1,8 @@
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import random
+from cms.settings import BASE_DIR
+import os
+import io
 
 CHECK_CODE = ''
 
@@ -7,7 +10,7 @@ CHECK_CODE = ''
 # 随机字母:
 def rndChar():
     single_char = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
-    nun = random.randint(0,58)
+    nun = random.randint(0, 58)
     global CHECK_CODE
     CHECK_CODE += single_char[nun]
     return single_char[nun]
@@ -44,10 +47,13 @@ def create_code():
         draw.line((random.randint(0, 240), random.randint(0, 60), random.randint(0, 240), random.randint(0, 60)),
                   'cyan')
     # 模糊:
-    image = image.filter(ImageFilter.BLUR)
-    image.save('code.png', 'png')
+    # image = image.filter(ImageFilter.BLUR)
+    # image.save(os.path.join(BASE_DIR, 'static/images/checkCode/code.png'), 'png')
+    buf = io.BytesIO()
+    image.save(buf,'png')
     global CHECK_CODE
     result = CHECK_CODE
     CHECK_CODE = ""
-    return result
+    return result, buf
 
+# create_code()

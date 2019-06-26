@@ -17,11 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from adminIndex import views as adminView
 from manager import views as manager
+from login import views as lView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^luna$', adminView.show_index),
     url(r'^luna/', include('adminIndex.urls')),
+    url(r'^logindo$', lView.show_login),
     url(r'^logindo/', include('login.urls')),
     url(r'^add/', manager.add),
     url(r'^', include('index.urls'))

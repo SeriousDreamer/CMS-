@@ -24,7 +24,7 @@ SECRET_KEY = 'vg)*dz^k!*adp9q5y(mm(lcff=iu)tc@b1v2ltxg0-$x081@$c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['103.45.174.4','127.0.0.1']
 
 # Application definition
 
@@ -78,12 +78,20 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'cmsD',
+    #     'USER': 'cmsD',
+    #     'PASSWORD': 'C6hxc5Bk8zZiTPth',
+    #     'HOST': '103.45.174.4',
+    #     'PORT': '3306'
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmsD',
-        'USER': 'cmsD',
-        'PASSWORD': 'C6hxc5Bk8zZiTPth',
-        'HOST': '103.45.174.4',
+        'NAME': 'cms',
+        'USER': 'root',
+        'PASSWORD': '1996010207',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
