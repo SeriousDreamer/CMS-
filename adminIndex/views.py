@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from . import is_login
+from django.shortcuts import render
 
 # Create your views here.
 """
@@ -14,9 +13,7 @@ def show_index(request):
     :param request:
     :return:
     """
-    if is_login.is_login(request):
-        url = request.path
-        return render(request, 'adminIndex.html', {'url': url})
-    else:
-        dic = {'status': '请登录!!'}
-        return render(request, 'logins.html', dic)
+    url = request.path
+    return render(request, 'adminIndex.html', {'url': url})
+
+
