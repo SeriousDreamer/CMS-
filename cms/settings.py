@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'login',
     'manager',
     'articleManagement',
+    'column',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.loginCheck.loginMiddleWare',
 ]
 
 ROOT_URLCONF = 'cms.urls'
@@ -89,7 +91,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cms',
-        'USER': 'root',
+        'USER': 'cms',
         'PASSWORD': '1996010207',
         'HOST': '127.0.0.1',
         'PORT': '3306'

@@ -1,0 +1,131 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'markdown/css/editormd.css' %}"/>
+<div class="row" id="writeArticleTitle">
+    <div class="col-md-2">
+        <h3>标题：</h3>
+    </div>
+    <div class="col-md-10">
+        <input type="text" name="title" placeholder="请输入标题" value="{{ title }}">
+    </div>
+</div>
+<div class="row" id="writeArticleIntroduction">
+    <div class="col-md-2">
+        <h3>摘要：</h3>
+    </div>
+    <div class="col-md-10">
+        <input type="text" name="introduction" placeholder="请输入摘要" value="{{ introduction }}">
+    </div>
+</div>
+<div class="row" id="writeArticleOther">
+    <div class="col-md-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger">选择分类</button>
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" id="writeArticleColumn">
+                {% for i in column %}
+                    <li><input type="checkbox" value="{{ i.columnId }}" id="{{ i.name }}" class="writeArticleColumn">
+                        <label for="{{ i.name }}">{{ i.name }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <span>文章url：</span><input type="text" name="articleUrl" value="{{ url }}">
+    </div>
+    <div class="col-md-4">
+        <input type="checkbox" id="public" checked="true"><label for="public" class="writeArticleStatus">发布</label>
+        <input type="checkbox" id="draft"><label for="draft" class="writeArticleStatus">草稿</label>
+        <input type="checkbox" id="commentStatus" checked="true"><label for="commentStatus">开启评论</label>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" id="releaseArticle">发布</button>
+    </div>
+    <script>
+        $('#public').click(function () {
+            if ($(this).is(":checked")) {
+                $('#draft').prop('checked', false);
+                $('#releaseArticle').html("发布");
+            }
+        });
+        $('#draft').click(function () {
+            if ($(this).is(":checked")) {
+                $('#public').prop('checked', false);
+                $('#releaseArticle').html("保存");
+            }
+        });
+        let column = new Array(1);
+        {% for i in updateColumn %}
+            column.push(i);
+        {% endfor %}
+        alert(column);
+    </script>
+</div>
+<hr>
+<div class="row">
+    <p id="result"></p>
+    <div id="editor">
+        <textarea style="display:none;">### Hello Editor.md !</textarea>
+    </div>
+</div>
+<script>
+    $('#releaseArticle').click(function () {
+        {#获取文章标题#}
+        let title = $("input[name = 'title']").val();
+        {#获取文章摘要#}
+        let introduction = $("input[name = 'introduction']").val();
+        {#获取文章url#}
+        let url = $("input[name = 'articleUrl']").val();
+        {#获取文章发布状态#}
+        let publicStatus = true;
+        if ($('#public').is(":checked")) {
+            publicStatus = true;
+        } else {
+            publicStatus = false;
+        }
+        {#获取文章评论状态#}
+        let commentStatus = true;
+        if ($('#commentStatus').is(":checked")) {
+            commentStatus = true
+        }
+        {#获取分类目录#}
+        let column = "";
+        for (let i = 0; i < $('.writeArticleColumn').length; i++) {
+            if ($('.writeArticleColumn').eq(i).is(":checked")) {
+                column = column + $('.writeArticleColumn').eq(i).val() + ",";
+            }
+        }
+        {#获取文章内容#}
+        let content = $('.markdown-body').html();
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: "/luna/web/writeArticle",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                "title": title, "introduction": introduction,
+                "column": column, "commentStatus": commentStatus,
+                "publicStatus": publicStatus, "url": url,
+                "content": content
+            },
+            success: function (data) {
+                $('#result').html(data)
+            }
+        });
+    });
+</script>
+<script src="{% static 'markdown/editormd.min.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("editor", {
+            width: "100%",
+            height: "720",
+            markdown: "md",     // dynamic set Markdown text
+            path: "/static/markdown/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+        });
+    });
+</script>

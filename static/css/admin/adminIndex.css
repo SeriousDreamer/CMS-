@@ -30,3 +30,41 @@ ul, li, a {
 .articleFun a{
     margin-left: 10px;
 }
+#writeArticleTitle,#writeArticleIntroduction{
+    margin-bottom: 10px;
+}
+#writeArticleTitle .col-md-10 input{
+    vertical-align: middle;
+    line-height: 35px;
+    width: 100%;
+    margin-top: 10px;
+}
+#writeArticleIntroduction{
+
+}
+#writeArticleIntroduction .col-md-2 h3{
+    line-height: 70px;
+}
+#writeArticleIntroduction .col-md-10 input{
+    vertical-align: middle;
+    line-height: 100px;
+    width: 100%;
+}
+#writeArticleColumn li{
+    margin: 10px;
+}
+#writeArticleColumn li span{
+    margin-left: 10px;
+}
+#draft{
+    margin-left: 10px;
+}
+.writeArticleStatus{
+    margin-left: 5px;
+}
+#commentStatus{
+    margin-left: 10px;
+}
+#writeArticleOther{
+    margin-bottom: 10px;
+}

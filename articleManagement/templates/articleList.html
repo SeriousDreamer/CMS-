@@ -2,7 +2,7 @@
     {% load static %}
     <div class="row articleFun">
         <a class="btn btn-primary active" role="button" id="articleFun_all">所有文章</a>
-        <a href="#" class="btn btn-default active" role="button">写文章</a>
+        <a  class="btn btn-default active" role="button" id="articleFun_write">写文章</a>
         <a href="#" class="btn btn-default active" role="button">分类目录</a>
     </div>
     <div class="row article">
@@ -17,7 +17,7 @@
     {% for i in article %}
     <div class="row articleRow">
         <div class="col-md-1 text-center"><input type="checkbox" name="items" class="articleOtherCheck"></div>
-        <div class="col-md-2 text-left"><a href="#">{{ i.title }}</a> </div>
+        <div class="col-md-2 text-left"><a class="articleTitle" urlTarget="{{ i.url }}">{{ i.title }}</a> </div>
         <div class="col-md-2 text-center "><img class="img-thumbnail img-rounded" src="{% static 'images/login/background.jpg' %}"
                                    style="width: 60px;height: 60px;"></div>
         <div class="col-md-2 text-center "><a href="#">{{ i.author }}</a></div>
@@ -27,6 +27,7 @@
     </div>
     {% endfor %}
 <script>
+    {#所有文章按钮ajax事件#}
     $('#articleFun_all').click(function () {
         $.ajax({
             async: true,
@@ -36,7 +37,36 @@
             }
         });
     });
+    {#写文章按钮ajax事件#}
+    $('#articleFun_write').click(function () {
+        $.ajax({
+            async: true,
+            url: "/luna/web/writeArticle",
+            success: function(data){
+                $('#article-list').html(data)
+            }
+        });
+    });
+    {#文章标题ajax事件#}
+    $('.articleTitle').click(function () {
+       let articleUrl = $(this).attr('urlTarget');
 
+       $.ajax({
+           async: true,
+           type: "POST",
+           url: '/luna/web/updateArticle',
+           data: {
+               csrfmiddlewaretoken: '{{ csrf_token }}',
+               "url": articleUrl
+           },
+           success: function (data) {
+               $('#article-list').html(data);
+           },
+           error: function () {
+               alert("ajax事件失败");
+           }
+       })
+    });
     $('#articleMainCheck').prop('checked', false);
     for (var i = 0; i < $('.articleOtherCheck').length; i++) {
         $('.articleOtherCheck').eq(i).prop('checked', false);
