@@ -69,10 +69,11 @@
 <div class="row">
     <p id="result"></p>
     <div id="editor">
-        <textarea style="display:none;">### Hello Editor.md !</textarea>
+        <textarea style="display:none;">{{ markdown }}</textarea>
     </div>
 </div>
 <script>
+    {#发布文字按钮点击事件#}
     $('#releaseArticle').click(function () {
         {#获取文章标题#}
         let title = $("input[name = 'title']").val();
@@ -101,6 +102,8 @@
         }
         {#获取文章内容#}
         let content = $('.markdown-body').html();
+        {#获取文章原始markdown语法内容#}
+        let markdown = $('#editor textarea').html();
         $.ajax({
             async: true,
             type: 'POST',
@@ -110,7 +113,7 @@
                 "title": title, "introduction": introduction,
                 "column": column, "commentStatus": commentStatus,
                 "publicStatus": publicStatus, "url": url,
-                "content": content
+                "content": content,"markdown": markdown
             },
             success: function (data) {
                 $('#result').html(data)
@@ -121,11 +124,16 @@
 <script src="{% static 'markdown/editormd.min.js' %}"></script>
 <script type="text/javascript">
     $(function () {
+        let mark = "markdown";
+        if($('#editor textarea').html()){
+            mark = $('#editor textarea').html()
+        }
         var editor = editormd("editor", {
             width: "100%",
             height: "720",
-            markdown: "md",     // dynamic set Markdown text
+            markdown: mark,     // dynamic set Markdown text
             path: "/static/markdown/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
         });
     });
 </script>
+

@@ -48,6 +48,7 @@ def write_article(request):
         title = result['title']
         author = request.COOKIES.get('uname')
         content = result['content']
+        markdown = result['markdown']
         column = result['column']
         introduction = result['introduction']
         publicStatus = result['publicStatus']
@@ -71,7 +72,7 @@ def write_article(request):
             'title': title, 'author': author,
             'content': content, 'column': column,
             'introduction': introduction, "publicStatus": publicStatus,
-            "commentStatus": commentStatus, 'url': url
+            "commentStatus": commentStatus, 'url': url,'markdown': markdown
         }
         try:
             article = models.Article(**dic)
@@ -84,6 +85,11 @@ def write_article(request):
 
 @csrf_protect
 def update_article(request):
+    """
+    修改文章函数
+    :param request:
+    :return:
+    """
     url = request.POST['url']
     try:
         article = models.Article.objects.filter(url=url)
@@ -110,7 +116,8 @@ def update_article(request):
         "publicStatus": article[0].publicStatus,
         "commentStatus": article[0].commentStatus,
         "url": article[0].url,
-        'column':[]
+        'column':[],
+        "markdown":article[0].markdown
     }
     for i in all_column:
         dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
