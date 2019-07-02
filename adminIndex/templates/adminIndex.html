@@ -6,11 +6,6 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/admin/adminIndex.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.css' %}">
-    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
-    <script src="{% static 'js/popper.js' %}"></script>
-    <script src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/admin/adminIndex.js' %}" type="application/javascript"></script>
-    <script src="{% static 'bootstrap-3.3.7/js/bootstrap-select.js' %}" type="application/javascript"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -27,7 +22,7 @@
                 <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2">
                     <li><a href="#permission" tabindex="-1" data-toggle="tab">权限管理</a></li>
                     <li><a href="#article" tabindex="-1" data-toggle="tab">文章审核</a></li>
-                    <li><a href="#sort" tabindex="-1" data-toggle="tab">栏目管理</a></li>
+                    <li><a id="index_column" href="#column" tabindex="-1" data-toggle="tab">栏目管理</a></li>
                     <li><a href="#templates" tabindex="-1" data-toggle="tab">模板管理</a></li>
                 </ul>
             </li>
@@ -61,10 +56,9 @@
                 <p>这是文章审核页面</p>
                 {% endblock theArticleReview %}
             </div>
-            <div class="tab-pane fade text-center" id="sort">
-                {% block colume %}
-                <p>这是栏目管理页面</p>
-                {% endblock colume %}
+            <div class="tab-pane fade text-center" id="column">
+{#                这是栏目管理页面#}
+                <img src="{% static 'images/util/loading.gif' %}">
             </div>
             <div class="tab-pane fade text-center" id="templates">
                 {% block templates %}
@@ -98,5 +92,10 @@
 
     </div>
 </div>
+<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
+<script src="{% static 'js/admin/adminIndex.js' %}"></script>
+<script src="{% static 'bootstrap-3.3.7/js/bootstrap-select.js' %}"></script>
 </body>
 </html>
