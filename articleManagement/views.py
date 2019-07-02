@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,Http404
+from django.http import HttpResponse, Http404
 from . import models
 from column import models as column_models
 from django.views.decorators.csrf import csrf_protect
@@ -32,6 +32,7 @@ def write_article(request):
     :return:
     """
     if request.method == "GET":
+        # 返回写文章的视图
         all_column = column_models.Columns.objects.all()
         articles = models.Article.objects.order_by('-id')
         id_article = 0
@@ -39,11 +40,12 @@ def write_article(request):
             id_article = article.id
             break
         id_article += 1
-        dic = {'column':[],'url':"127.0.0.1:8000/article/%s.html" %id_article}
+        dic = {'column': [], 'url': "127.0.0.1:8000/article/%s.html" % id_article}
         for i in all_column:
-            dic['column'].append({"columnId":i.columnId,"parent":i.parent,"name":i.name})
-        return render(request, 'writeArticle.html',dic)
+            dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
+        return render(request, 'writeArticle.html', dic)
     elif request.method == "POST":
+        # 接受文章的内容
         result = request.POST
         title = result['title']
         author = request.COOKIES.get('uname')
@@ -68,11 +70,15 @@ def write_article(request):
             commentStatus = True
         elif commentStatus == "false":
             commentStatus = False
+        if publicStatus == "true":
+            publicStatus = True
+        elif publicStatus == "false":
+            publicStatus = False
         dic = {
             'title': title, 'author': author,
             'content': content, 'column': column,
             'introduction': introduction, "publicStatus": publicStatus,
-            "commentStatus": commentStatus, 'url': url,'markdown': markdown
+            "commentStatus": commentStatus, 'url': url, 'markdown': markdown
         }
         try:
             article = models.Article(**dic)
@@ -90,37 +96,73 @@ def update_article(request):
     :param request:
     :return:
     """
-    url = request.POST['url']
-    try:
-        article = models.Article.objects.filter(url=url)
-    except Exception as e:
-        print(e)
-        return HttpResponse("查找失败")
-    column = article[0].column
-    column = column.split(',')
-    column_name = []
-    try:
-        for i in column:
-            if i:
-                column_name.append(column_models.Columns.objects.filter(columnId=int(i))[0].name)
-        all_column = column_models.Columns.objects.all()
-    except Exception as e:
-        print(e)
-        return Http404
-    dic = {
-        "title": article[0].title,
-        "author": article[0].author,
-        "content": article[0].content,
-        "updateColumn": column_name,
-        "introduction": article[0].introduction,
-        "publicStatus": article[0].publicStatus,
-        "commentStatus": article[0].commentStatus,
-        "url": article[0].url,
-        'column':[],
-        "markdown":article[0].markdown
-    }
-    for i in all_column:
-        dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
+    if request.method == "GET":
+        # 当请求方式为GET时候是请求需要修改的文章的原本的内容
+        url = request.GET['url']
+        try:
+            article = models.Article.objects.filter(url=url)
+        except Exception as e:
+            print(e)
+            return HttpResponse("查找失败")
+        column = article[0].column
+        column = column.split(',')
+        column_name = []
+        try:
+            for i in column:
+                if i:
+                    column_name.append(column_models.Columns.objects.filter(columnId=int(i))[0].name)
+            all_column = column_models.Columns.objects.all()
+        except Exception as e:
+            print(e)
+            return Http404
+        dic = {
+            "title": article[0].title,
+            "author": article[0].author,
+            "content": article[0].content,
+            "updateColumn": column_name,
+            "introduction": article[0].introduction,
+            "publicStatus": article[0].publicStatus,
+            "commentStatus": article[0].commentStatus,
+            "url": article[0].url,
+            'column': [],
+            "markdown": article[0].markdown
+        }
+        for i in all_column:
+            dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
 
-    print(dic)
-    return render(request,'writeArticle.html',dic)
+        print(dic)
+        dic['status'] = "update"
+        return render(request, 'writeArticle.html', dic)
+    elif request.method == "POST":
+        # 当请求的方式为POST的时候，是要更新当前文章的内容
+        title = request.POST['title']
+        introduction = request.POST['introduction']
+        column = request.POST['column']
+        commentStatus = request.POST['commentStatus']
+        publicStatus = request.POST['publicStatus']
+        url = request.POST['url']
+        content = request.POST['content']
+        markdown = request.POST['markdown']
+        if commentStatus == "true":
+            commentStatus = True
+        elif commentStatus == "false":
+            commentStatus = False
+        if publicStatus == "true":
+            publicStatus = True
+        elif publicStatus == "false":
+            publicStatus = False
+        try:
+            sql = models.Article.objects.get(title=title)
+            sql.title = title
+            sql.introduction = introduction
+            sql.column = column
+            sql.commentStatus = commentStatus
+            sql.publicStatus = publicStatus
+            sql.url = url
+            sql.content = content
+            sql.markdown = markdown
+            sql.save()
+            return HttpResponse("更新成功")
+        except Exception as e:
+            print(e)
+            return HttpResponse('更新失败')

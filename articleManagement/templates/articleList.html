@@ -53,7 +53,7 @@
 
        $.ajax({
            async: true,
-           type: "POST",
+           method: "get",
            url: '/luna/web/updateArticle',
            data: {
                csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -67,32 +67,35 @@
            }
        })
     });
-    $('#articleMainCheck').prop('checked', false);
-    for (var i = 0; i < $('.articleOtherCheck').length; i++) {
-        $('.articleOtherCheck').eq(i).prop('checked', false);
+    function checkFun(main, other) {
+        main.prop('checked', false);
+        for (var i = 0; i < other.length; i++) {
+            other.eq(i).prop('checked', false);
+        }
+        main.click(function () {
+            if (main.is(":checked")) {
+                for (var i = 0; i < other.length; i++) {
+                    other.eq(i).prop('checked', true);
+                }
+            } else {
+                for (var i = 0; i < other.length; i++) {
+                    other.eq(i).prop('checked', false);
+                }
+            }
+        });
+        other.click(function () {
+            var len = 0;
+            for (var i = 0; i < other.length; i++) {
+                if (other.eq(i).prop('checked')) {
+                    len++;
+                }
+            }
+            if (len == other.length) {
+                main.prop('checked', true);
+            } else {
+                main.prop('checked', false);
+            }
+        });
     }
-    $('#articleMainCheck').click(function () {
-        if ($('#articleMainCheck').is(":checked")) {
-            for (var i = 0; i < $('.articleOtherCheck').length; i++) {
-                $('.articleOtherCheck').eq(i).prop('checked', true);
-            }
-        } else {
-            for (var i = 0; i < $('.articleOtherCheck').length; i++) {
-                $('.articleOtherCheck').eq(i).prop('checked', false);
-            }
-        }
-    });
-    $('.articleOtherCheck').click(function () {
-        var len = 0;
-        for (var i = 0; i < $('.articleOtherCheck').length; i++) {
-            if ($('.articleOtherCheck').eq(i).prop('checked')) {
-                len++;
-            }
-        }
-        if (len == $('.articleOtherCheck').length) {
-            $('#articleMainCheck').prop('checked', true);
-        } else {
-            $('#articleMainCheck').prop('checked', false);
-        }
-    });
+    checkFun($('#articleMainCheck'),$('.articleOtherCheck'));
 </script>

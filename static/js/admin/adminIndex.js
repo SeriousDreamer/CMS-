@@ -3,8 +3,18 @@ $(document).ready(function () {
         $.ajax({
             async: true,
             url: "/luna/web/articleList",
-            success: function(data){
-                $('#article-list').html(data)
+            success: function (data) {
+                $('#article-list').html(data);
+            }
+        });
+    });
+
+    $('#index_column').click(function () {
+        $.ajax({
+            async: true,
+            url: "/luna/backStage/column",
+            success: function (data) {
+                $('#column').html(data);
             }
         });
     });

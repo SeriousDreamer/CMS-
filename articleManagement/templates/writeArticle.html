@@ -43,7 +43,11 @@
         <input type="checkbox" id="commentStatus" checked="true"><label for="commentStatus">开启评论</label>
     </div>
     <div class="col-md-2">
-        <button class="btn btn-primary" id="releaseArticle">发布</button>
+        {% if status == "update" %}
+            <button class="btn btn-primary" id="updateArticle">更新</button>
+        {% else %}
+            <button class="btn btn-primary" id="releaseArticle">发布</button>
+        {% endif %}
     </div>
     <script>
         $('#public').click(function () {
@@ -62,7 +66,7 @@
         {% for i in updateColumn %}
             column.push(i);
         {% endfor %}
-        alert(column);
+
     </script>
 </div>
 <hr>
@@ -73,8 +77,7 @@
     </div>
 </div>
 <script>
-    {#发布文字按钮点击事件#}
-    $('#releaseArticle').click(function () {
+    function articleFun(method) {
         {#获取文章标题#}
         let title = $("input[name = 'title']").val();
         {#获取文章摘要#}
@@ -107,7 +110,7 @@
         $.ajax({
             async: true,
             type: 'POST',
-            url: "/luna/web/writeArticle",
+            url: "/luna/web/"+method,
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 "title": title, "introduction": introduction,
@@ -119,7 +122,15 @@
                 $('#result').html(data)
             }
         });
+    }
+    {#发布文章按钮点击事件#}
+    $('#releaseArticle').click(function () {
+        articleFun("writeArticle");
     });
+    {#更新文章按钮点击事件#}
+    $('#updateArticle').click(function () {
+        articleFun("updateArticle")
+    })
 </script>
 <script src="{% static 'markdown/editormd.min.js' %}"></script>
 <script type="text/javascript">

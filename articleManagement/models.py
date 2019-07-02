@@ -3,8 +3,8 @@ from django.db import models
 
 # Create your models here.
 class Article(models.Model):
-    id = models.AutoField(verbose_name="id", primary_key=True,)  # 文章ID
-    title = models.CharField(verbose_name="文章标题", max_length=50)  # 文章标题
+    id = models.AutoField(verbose_name="id", primary_key=True, )  # 文章ID
+    title = models.CharField(verbose_name="文章标题", max_length=50, unique=True)  # 文章标题
     author = models.CharField(verbose_name="作者", max_length=50)  # 作者
     image = models.ImageField(verbose_name="特色图片", upload_to="static/images", default='null')  # 特色图片路径
     content = models.TextField(verbose_name="文章内容", )  # 文章内容
