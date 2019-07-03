@@ -1,12 +1,12 @@
 {#显示分类列表的模板文件#}
 {% load static %}
-<input type="text" name="top_column" token="{{ csrf_token }}">
+<input type="text" name="top_column" token="{{ csrf_token }}" placeholder="请输入分类名称">
 <button class="btn btn-dark" id="add_top_column">增加顶级标题</button>
 <p id="add_column_result">
     {{ result }}
 </p>
 <p></p>
-<table class="table table-hover">
+<table class="table table-hover table-responsive">
     <tr>
         <td>分类ID</td>
         <td>分类名称</td>
@@ -14,16 +14,31 @@
         <td>操作</td>
     </tr>
     {% for i in column %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.name }}</td>
-            <td>{{ i.time }}</td>
-            <td>
-                <button class="btn btn-default">增加子标题</button>
-                <button class="btn btn-primary">修改信息</button>
-                <button class="btn btn-danger">删除</button>
-            </td>
-        </tr>
+        {% if i.parent == 0 %}
+            <tr>
+                <td>{{ i.columnId }}</td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.time }}</td>
+                <td>
+                    <input class="columnName" type="text" target="{{ i.columnId }}" style="display: none" placeholder="请输入分类名称" token="{{ csrf_token }}">
+                    <button class="btn btn-warning release" target="{{ i.columnId }}" style="display: none">提交</button>
+                    <button class="btn btn-default add_child_column" target="{{ i.columnId }}">增加子标题</button>
+                    <button class="btn btn-primary">修改信息</button>
+                    <button class="btn btn-danger delete_column" target="{{ i.columnId }}">删除</button>
+                    <button class="btn btn-info fade_in_out" id="{{ i.columnId }}">显示</button>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="info byFade" style="display: none" target={{ i.parent }}>
+                <td>{{ i.columnId }}</td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.time }}</td>
+                <td>
+                    <button class="btn btn-primary">修改信息</button>
+                    <button class="btn btn-danger delete_column" target="{{ i.columnId }}">删除</button>
+                </td>
+            </tr>
+        {% endif %}
     {% endfor %}
 </table>
 <script src="{% static 'js/admin/column.js' %}"></script>
