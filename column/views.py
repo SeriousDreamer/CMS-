@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from . import models
+from utils.tree import Tree, TreeNode
 
 
 # Create your views here.
@@ -32,11 +33,17 @@ def select_column():
     try:
         spl = models.Columns.objects.all()
         dic = {"column": []}
+        dic1 = {}
+        # 以下循环用于整理数据格式
         for column in spl:
-            dic["column"].append({
-                "id": column.columnId, "name": column.name,
-                "time": column.time, "parent": column.parent
-            })
+            if column.parent == 0:
+                dic1[column.columnId] = {"parent": [column], "child": []}
+            elif column.parent != 0:
+                dic1[column.parent]["child"].append(column)
+        for k, v in dic1.items():
+            dic['column'].append(v['parent'][0])
+            for i in v['child']:
+                dic['column'].append(i)
         return dic
     except Exception as e:
         return False
@@ -50,7 +57,10 @@ def add_column(request):
     :return:
     """
     column_name = request.POST['columnName']
-    dic = {"name": column_name}
+    parent_name = request.POST['parentName']
+    dic = {"name": column_name, 'parent': parent_name}
+    if not dic['name']:
+        return HttpResponse("请输入栏目名称")
     try:
         spl = models.Columns(**dic)
         spl.save()
@@ -58,3 +68,26 @@ def add_column(request):
     except Exception as e:
         print(e)
         return HttpResponse("添加失败")
+
+
+@csrf_protect
+def delete_column(request):
+    column_id = request.POST['columnId']
+    try:
+        sql = models.Columns.objects.get(columnId=column_id)
+        print(sql.name)
+        if sql.parent == 0:
+            all = models.Columns.objects.all()
+            for i in all:
+                if i.parent == column_id:
+                    return HttpResponse('请删除该分类的所有子分类')
+            sql.delete()
+            sql.save()
+            return HttpResponse('删除成功')
+        else:
+            sql.delete()
+            sql.save()
+            return HttpResponse('删除成功')
+    except Exception as e:
+        print(e)
+        return HttpResponse('删除失败')
