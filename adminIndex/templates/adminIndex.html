@@ -11,12 +11,12 @@
 <div class="container-fluid">
     <div class="row">
         <ul id="myTab" class="nav nav-tabs">
-            <li class="{% if url == '/luna' or url == '/luna/'%}active{% endif %}" >
+            <li class="{% if url == '/luna' or url == '/luna/'%}active{% endif %}" id="baseIndex">
                 <a href="#home" data-toggle="tab">
                     后台主页
                 </a>
             </li>
-            <li class="dropdown" >
+            <li class="dropdown" id="backStage">
                 <a href="#" id="myTabDrop2" class="dropdown-toggle"
                    data-toggle="dropdown">后台管理<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2">

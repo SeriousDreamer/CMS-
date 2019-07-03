@@ -12,7 +12,7 @@ urlpatterns = [
 urlpatterns += [
     url(r'backStage/column', coViews.show_index),
     url(r'backStage/addColumn', coViews.add_column),
-    url(r'backStage/deleteColumn',coViews.delete_column),
+    url(r'backStage/deleteColumn', coViews.delete_column),
 ]
 
 urlpatterns += [
