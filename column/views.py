@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from . import models
+from articleManagement import models as amodels
 from utils.tree import Tree, TreeNode
+from django.db import connection
 
 
 # Create your views here.
@@ -16,7 +18,8 @@ def show_index(request):
             return render(request, 'column_list.html', dic)
         else:
             return render(request, 'column_list.html', {'result': "失败"})
-    except:
+    except Exception as e:
+        print(e)
         # 这里是点击栏目管理返回的视图
         if select_column():
             dic = select_column()
@@ -46,6 +49,7 @@ def select_column():
                 dic['column'].append(i)
         return dic
     except Exception as e:
+        print(e)
         return False
 
 
@@ -72,22 +76,21 @@ def add_column(request):
 
 @csrf_protect
 def delete_column(request):
-    column_id = request.POST['columnId']
+    column_id = int(request.POST['columnId'])
     try:
         sql = models.Columns.objects.get(columnId=column_id)
         print(sql.name)
         if sql.parent == 0:
-            all = models.Columns.objects.all()
-            for i in all:
+            column = models.Columns.objects.all()
+            for i in column:
                 if i.parent == column_id:
                     return HttpResponse('请删除该分类的所有子分类')
             sql.delete()
-            sql.save()
             return HttpResponse('删除成功')
         else:
             sql.delete()
-            sql.save()
             return HttpResponse('删除成功')
     except Exception as e:
         print(e)
         return HttpResponse('删除失败')
+
