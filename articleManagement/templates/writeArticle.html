@@ -27,9 +27,21 @@
             </button>
             <ul class="dropdown-menu" id="writeArticleColumn">
                 {% for i in column %}
-                    <li><input type="checkbox" value="{{ i.columnId }}" id="{{ i.name }}" class="writeArticleColumn">
-                        <label for="{{ i.name }}">{{ i.name }}</label>
-                    </li>
+                    {% if i.parent == 0 %}
+                        <li><input type="checkbox" value="{{ i.columnId }}" id="{{ i.name }}"
+                                   class="writeArticleColumn"
+                                   {% if i.name in updateColumn %}checked{% endif %}>
+                            <label for="{{ i.name }}">{{ i.name }}</label>
+                        </li>
+                    {% else %}
+                        <ul style="margin-left: 10px">
+                            <li><input type="checkbox" value="{{ i.columnId }}" id="{{ i.name }}"
+                                       class="writeArticleColumn"
+                                       {% if i.name in updateColumn %}checked{% endif %}>
+                                <label for="{{ i.name }}">{{ i.name }}</label>
+                            </li>
+                        </ul>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -110,19 +122,20 @@
         $.ajax({
             async: true,
             type: 'POST',
-            url: "/luna/web/"+method,
+            url: "/luna/web/" + method,
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 "title": title, "introduction": introduction,
                 "column": column, "commentStatus": commentStatus,
                 "publicStatus": publicStatus, "url": url,
-                "content": content,"markdown": markdown
+                "content": content, "markdown": markdown
             },
             success: function (data) {
                 $('#result').html(data)
             }
         });
     }
+
     {#发布文章按钮点击事件#}
     $('#releaseArticle').click(function () {
         articleFun("writeArticle");
@@ -136,7 +149,7 @@
 <script type="text/javascript">
     $(function () {
         let mark = "markdown";
-        if($('#editor textarea').html()){
+        if ($('#editor textarea').html()) {
             mark = $('#editor textarea').html()
         }
         var editor = editormd("editor", {

@@ -3,6 +3,8 @@ from django.http import HttpResponse, Http404
 from . import models
 from column import models as column_models
 from django.views.decorators.csrf import csrf_protect
+from column import views as co_views
+from column.views import select_column
 
 
 # Create your views here.
@@ -40,9 +42,8 @@ def write_article(request):
             id_article = article.id
             break
         id_article += 1
-        dic = {'column': [], 'url': "127.0.0.1:8000/article/%s.html" % id_article}
-        for i in all_column:
-            dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
+        dic = co_views.select_column()
+        dic['url'] = "127.0.0.1:8000/article/%s.html" % id_article
         return render(request, 'writeArticle.html', dic)
     elif request.method == "POST":
         # 接受文章的内容
@@ -76,16 +77,22 @@ def write_article(request):
             publicStatus = False
         dic = {
             'title': title, 'author': author,
-            'content': content, 'column': column,
+            'content': content,
             'introduction': introduction, "publicStatus": publicStatus,
             "commentStatus": commentStatus, 'url': url, 'markdown': markdown
         }
-        try:
-            article = models.Article(**dic)
-            article.save()
-        except Exception as e:
-            print(e)
-            return HttpResponse("发布失败")
+        column = column.split(',')[0:-1]
+        art = column_models.Columns.objects.get(columnId=int(column[0]))
+        art = art.article_set.create(**dic)
+        for i in range(1, len(column)):
+            column_models.Columns.objects.get(columnId=int(column[i])).article_set.add(art)
+
+        # try:
+        #     article = models.Article(**dic)
+        #     article.save()
+        # except Exception as e:
+        #     print(e)
+        #     return HttpResponse("发布失败")
         return HttpResponse("发布成功")
 
 
@@ -100,39 +107,32 @@ def update_article(request):
         # 当请求方式为GET时候是请求需要修改的文章的原本的内容
         url = request.GET['url']
         try:
-            article = models.Article.objects.filter(url=url)
+            article = models.Article.objects.get(url=url)
         except Exception as e:
             print(e)
             return HttpResponse("查找失败")
-        column = article[0].column
-        column = column.split(',')
+        columns = article.column.all()
         column_name = []
-        try:
-            for i in column:
-                if i:
-                    column_name.append(column_models.Columns.objects.filter(columnId=int(i))[0].name)
-            all_column = column_models.Columns.objects.all()
-        except Exception as e:
-            print(e)
-            return Http404
-        dic = {
-            "title": article[0].title,
-            "author": article[0].author,
-            "content": article[0].content,
-            "updateColumn": column_name,
-            "introduction": article[0].introduction,
-            "publicStatus": article[0].publicStatus,
-            "commentStatus": article[0].commentStatus,
-            "url": article[0].url,
-            'column': [],
-            "markdown": article[0].markdown
-        }
-        for i in all_column:
-            dic['column'].append({"columnId": i.columnId, "parent": i.parent, "name": i.name})
-
-        print(dic)
+        for i in columns:
+            column_name.append(i.name)
+        dic = select_column()
+        dic["title"] = article.title
+        dic["author"] = article.author
+        dic["content"] = article.content
+        dic["updateColumn"] = column_name
+        dic["introduction"] = article.introduction
+        dic["publicStatus"] = article.publicStatus
+        dic["commentStatus"] = article.commentStatus
+        dic["url"] = article.url
+        dic["markdown"] = article.markdown
+        print(dic['updateColumn'])
+        print(dic['column'])
+        for i in dic['column']:
+            if i.name in dic['updateColumn']:
+                print(i.name)
         dic['status'] = "update"
         return render(request, 'writeArticle.html', dic)
+        # return HttpResponse(column_name)
     elif request.method == "POST":
         # 当请求的方式为POST的时候，是要更新当前文章的内容
         title = request.POST['title']
