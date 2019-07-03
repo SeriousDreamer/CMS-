@@ -5,6 +5,7 @@ $(document).ready(function () {
             url: "/luna/web/articleList",
             success: function (data) {
                 $('#article-list').html(data);
+                active($('#web'));
             }
         });
     });
@@ -15,9 +16,19 @@ $(document).ready(function () {
             url: "/luna/backStage/column",
             success: function (data) {
                 $('#column').html(data);
+                active($('#backStage'));
             }
         });
     });
 
-
+    function active(obj) {
+        let arr = [$('#backStage'), $('#web'), $('#baseIndex')];
+        for (let i in arr) {
+            if (i === obj) {
+                i.addClass('active');
+            } else {
+                i.removeClass('active');
+            }
+        }
+    }
 });
