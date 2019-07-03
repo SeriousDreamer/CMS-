@@ -91,9 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cms',
-        'USER': 'root',
-        'PASSWORD': '1996010207',
-        'HOST': '127.0.0.1',
+        'USER': 'cms',
+        'PASSWORD': 'JMEENnJb7HCXnBAa',
+        'HOST': '103.45.174.4',
         'PORT': '3306'
     }
 }
