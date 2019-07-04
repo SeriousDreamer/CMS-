@@ -83,6 +83,7 @@ def write_article(request):
         }
         column = column.split(',')[0:-1]
         try:
+            # 处理文章的分类创建
             art = column_models.Columns.objects.get(columnId=int(column[0]))
             art = art.article_set.create(**dic)
             for i in range(1, len(column)):
@@ -154,12 +155,15 @@ def update_article(request):
             sql = models.Article.objects.get(title=title)
             sql.title = title
             sql.introduction = introduction
-            # sql.column = column # 需要修复
+            # sql.column = column # 需要修复,因为数据库已经改为多对多模式，所以不能这样添加数据
             column = column.split(',')[0:-1]
+            # 获取对应文章的所有分类
             old_column = sql.column.all()
             old_column_list = []
+            # 将文字的所有分类的id提取出来
             for i in old_column:
                 old_column_list.append(str(i.columnId))
+            # 将更新后的文章id与旧的进行比较，如果有新添加的，就更新
             for i in range(len(column)):
                 if column[i] not in old_column_list:
                     sql.column.add(column_models.Columns.objects.get(columnId=i))
