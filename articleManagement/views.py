@@ -82,17 +82,16 @@ def write_article(request):
             "commentStatus": commentStatus, 'url': url, 'markdown': markdown
         }
         column = column.split(',')[0:-1]
-        art = column_models.Columns.objects.get(columnId=int(column[0]))
-        art = art.article_set.create(**dic)
-        for i in range(1, len(column)):
-            column_models.Columns.objects.get(columnId=int(column[i])).article_set.add(art)
-
-        # try:
-        #     article = models.Article(**dic)
-        #     article.save()
-        # except Exception as e:
-        #     print(e)
-        #     return HttpResponse("发布失败")
+        try:
+            art = column_models.Columns.objects.get(columnId=int(column[0]))
+            art = art.article_set.create(**dic)
+            for i in range(1, len(column)):
+                column_models.Columns.objects.get(columnId=int(column[i])).article_set.add(art)
+            article = models.Article(**dic)
+            article.save()
+        except Exception as e:
+            print(e)
+            return HttpResponse("发布失败")
         return HttpResponse("发布成功")
 
 
