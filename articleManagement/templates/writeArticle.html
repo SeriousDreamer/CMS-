@@ -156,7 +156,10 @@
             width: "100%",
             height: "720",
             markdown: mark,     // dynamic set Markdown text
-            path: "/static/markdown/lib/"  // Autoload modules mode, codemirror, marked... dependents libs path
+            path: "/static/markdown/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
+            imageUpload: true, //开启图片上传
+            imageFormats: ['jpg','jpeg','png','bmp','gif'], //设置支持的图片格式
+            imageUploadURL: "{% url 'api-upload-url' %}", //设置处理图片上传的后端URL地址
         });
     });
 </script>

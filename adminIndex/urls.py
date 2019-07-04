@@ -7,12 +7,13 @@ urlpatterns = [
     url(r'^web/articleList', arViews.show_index),
     url(r'^web/writeArticle', arViews.write_article),
     url(r'^web/updateArticle', arViews.update_article),
+    url(r'^web/upload', views.upload, name='api-upload-url'),
 ]
 
 urlpatterns += [
-    url(r'backStage/column', coViews.show_index),
-    url(r'backStage/addColumn', coViews.add_column),
-    url(r'backStage/deleteColumn', coViews.delete_column),
+    url(r'^backStage/column', coViews.show_index),
+    url(r'^backStage/addColumn', coViews.add_column),
+    url(r'^backStage/deleteColumn', coViews.delete_column),
 ]
 
 urlpatterns += [

@@ -155,7 +155,15 @@ def update_article(request):
             sql = models.Article.objects.get(title=title)
             sql.title = title
             sql.introduction = introduction
-            sql.column = column
+            # sql.column = column # 需要修复
+            column = column.split(',')[0:-1]
+            old_column = sql.column.all()
+            old_column_list = []
+            for i in old_column:
+                old_column_list.append(str(i.columnId))
+            for i in range(len(column)):
+                if column[i] not in old_column_list:
+                    sql.column.add(column_models.Columns.objects.get(columnId=i))
             sql.commentStatus = commentStatus
             sql.publicStatus = publicStatus
             sql.url = url
@@ -166,3 +174,4 @@ def update_article(request):
         except Exception as e:
             print(e)
             return HttpResponse('更新失败')
+
