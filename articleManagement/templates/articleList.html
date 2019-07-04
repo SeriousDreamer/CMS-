@@ -4,26 +4,36 @@
     <a class="btn btn-default active" role="button" id="articleFun_write">写文章</a>
     <a class="btn btn-default active" role="button" id="articleFun_column">分类目录</a>
 </div>
-<div class="row article">
-    <div class="col-md-1 text-center"><input type="checkbox" id="articleMainCheck"></div>
-    <div class="col-md-2 text-left">标题</div>
-    <div class="col-md-2 text-center">特色图片</div>
-    <div class="col-md-2 text-center">作者</div>
-    <div class="col-md-2 text-center">分类</div>
-    <div class="col-md-1 text-center">评论</div>
-    <div class="col-md-2 text-center">日期</div>
-</div>
+<p></p>
+<table class="table table-hover table-responsive table-striped">
+        <tr>
+            <td><input type="checkbox" id="articleMainCheck"></td>
+            <td>标题</td>
+            <td>特色图片</td>
+            <td>作者</td>
+            <td>分类</td>
+            <td>评论</td>
+            <td>日期</td>
+        </tr>
+<style>
+    td{
+        vertical-align: middle !important;
+    }
+</style>
 {% for i in article %}
-    <div class="row articleRow">
-        <div class="col-md-1 text-center"><input type="checkbox" name="items" class="articleOtherCheck"></div>
-        <div class="col-md-2 text-left"><a class="articleTitle" urlTarget="{{ i.url }}">{{ i.title }}</a></div>
-        <div class="col-md-2 text-center "><img class="img-thumbnail img-rounded"
+    <tr>
+        <td><input type="checkbox" name="items" class="articleOtherCheck"></td>
+        <td><a class="articleTitle" urlTarget="{{ i.url }}">{{ i.title }}</a></td>
+        <td><img class="img-thumbnail img-rounded"
                                                 src="{% static 'images/login/background.jpg' %}"
-                                                style="width: 60px;height: 60px;"></div>
-        <div class="col-md-2 text-center "><a href="#">{{ i.author }}</a></div>
-        <div class="col-md-2 text-center "><a href="#">{% for i in i.column %}{{ i.name }},{% endfor %}</a></div>
-        <div class="col-md-1 text-center">{{ i.commentId }}</div>
-        <div class="col-md-2 text-center">{{ i.time }}</div>
-    </div>
+                                                style="width: 60px;height: 60px;" alt="特色图片"></td>
+        <td><a href="#">{{ i.author }}</a></td>
+        <td><a href="#">{% for i in i.column %}{{ i.name }},{% endfor %}</a></td>
+        <td>{{ i.commentId }}</td>
+        <td>{{ i.time }}</td>
+    </tr>
+
+
 {% endfor %}
+</table>
 <script src="{% static 'js/admin/articleList.js' %}"></script>

@@ -11,22 +11,6 @@ ul, li, a {
 #myTabContent{
     margin-top: 20px;
 }
-.article{
-    margin-top: 20px;
-    border-bottom: 1px solid black;
-}
-.article div{
-    padding-bottom: 5px;
-}
-.articleRow{
-    height: 70px;
-    border-bottom: 1px solid rgb(255,155,0);
-    margin-top: 10px;
-}
-.articleRow div {
-    height: 60px;
-    line-height: 60px;
-}
 .articleFun a{
     margin-left: 10px;
 }
