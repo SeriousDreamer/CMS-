@@ -42,12 +42,12 @@ $(document).ready(function () {
     // 增加子标题按钮点击事件
     $('.add_child_column').click(function () {
         // 获取对象
-        let parent_name = $(this).attr('target');
+        let parentId = $(this).attr('target');
         let columnName = $('.columnName');
         let release = $('.release');
-        columnName = choseObj(columnName, parent_name);
+        columnName = choseObj(columnName, parentId);
         let token = columnName.attr('token');
-        release = choseObj(release, parent_name);
+        release = choseObj(release, parentId);
         // 控制隐藏和浮现的动画效果
         columnName.fadeIn(1000);
         release.fadeIn(1000);
@@ -67,11 +67,14 @@ $(document).ready(function () {
                 data: {
                     csrfmiddlewaretoken: token,
                     'columnName': columnName.val(),
-                    'parentName': parent_name,
+                    'parentName': parentId,
                 },
                 success: function (data) {
                     // 等到数据成功添加后，动态的刷新目录列表页面
                     successResult(data)
+                },
+                error: function () {
+                    alert("添加失败")
                 }
             })
         })

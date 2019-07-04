@@ -3,14 +3,9 @@ from django.shortcuts import render
 import time
 import os
 from cms import settings
-
-# Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
-"""
-后台视图调用之前需要先判断用户是否登录，见show_index方法的示例。
-is_login方法是用来判断用户是否已经登录的方法
-"""
+# Create your views here.
 
 
 def show_index(request):

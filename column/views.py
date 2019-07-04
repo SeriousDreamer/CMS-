@@ -3,27 +3,22 @@ from django.views.decorators.csrf import csrf_protect
 from . import models
 
 
-
 # Create your views here.
 def show_index(request):
-    try:
-        # 这里是点击添加顶级标题返回的视图
-        if select_column():
-            dic = select_column()
+    dic = select_column()
+    if dic:
+        try:
+            # 这里是点击添加顶级标题返回的视图
             # 这里data是在执行完add_column函数后返回的值
             data = request.GET['data']
             dic['result'] = data
             return render(request, 'column_list.html', dic)
-        else:
-            return render(request, 'column_list.html', {'result': "失败"})
-    except Exception as e:
-        print(e)
-        # 这里是点击栏目管理返回的视图
-        if select_column():
-            dic = select_column()
+        except Exception as e:
+            print(e)
+            # 这里是点击栏目管理返回的视图
             return render(request, 'column_list.html', dic)
-        else:
-            return render(request, 'column_list.html', {'result': "失败"})
+    else:
+        return render(request, 'column_list.html', {'result': "失败"})
 
 
 def select_column():
@@ -60,6 +55,8 @@ def add_column(request):
     """
     column_name = request.POST['columnName']
     parent_name = request.POST['parentName']
+    if parent_name:
+        parent_name = int(parent_name)
     dic = {"name": column_name, 'parent': parent_name}
     if not dic['name']:
         return HttpResponse("请输入栏目名称")
@@ -91,4 +88,3 @@ def delete_column(request):
     except Exception as e:
         print(e)
         return HttpResponse('删除失败')
-
