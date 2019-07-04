@@ -1,4 +1,3 @@
-from django.http import HttpResponse, Http404
 from django.utils.deprecation import MiddlewareMixin
 import re
 from utils.is_login import is_login

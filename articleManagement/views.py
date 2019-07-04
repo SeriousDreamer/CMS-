@@ -35,7 +35,6 @@ def write_article(request):
     """
     if request.method == "GET":
         # 返回写文章的视图
-        all_column = column_models.Columns.objects.all()
         articles = models.Article.objects.order_by('-id')
         id_article = 0
         for article in articles:
@@ -54,8 +53,8 @@ def write_article(request):
         markdown = result['markdown']
         column = result['column']
         introduction = result['introduction']
-        publicStatus = result['publicStatus']
-        commentStatus = result['commentStatus']
+        public_status = result['publicStatus']
+        comment_status = result['commentStatus']
         url = result['url']
         if not title:
             title = "未命名"
@@ -67,19 +66,19 @@ def write_article(request):
             introduction = ""
         if not url:
             url = '127.0.0.1'
-        if commentStatus == "true":
-            commentStatus = True
-        elif commentStatus == "false":
-            commentStatus = False
-        if publicStatus == "true":
-            publicStatus = True
-        elif publicStatus == "false":
-            publicStatus = False
+        if comment_status == "true":
+            comment_status = True
+        elif comment_status == "false":
+            comment_status = False
+        if public_status == "true":
+            public_status = True
+        elif public_status == "false":
+            public_status = False
         dic = {
             'title': title, 'author': author,
             'content': content,
-            'introduction': introduction, "publicStatus": publicStatus,
-            "commentStatus": commentStatus, 'url': url, 'markdown': markdown
+            'introduction': introduction, "publicStatus": public_status,
+            "commentStatus": comment_status, 'url': url, 'markdown': markdown
         }
         column = column.split(',')[0:-1]
         try:
@@ -138,19 +137,20 @@ def update_article(request):
         title = request.POST['title']
         introduction = request.POST['introduction']
         column = request.POST['column']
-        commentStatus = request.POST['commentStatus']
-        publicStatus = request.POST['publicStatus']
+        comment_status = request.POST['commentStatus']
+        public_status = request.POST['publicStatus']
         url = request.POST['url']
         content = request.POST['content']
+
         markdown = request.POST['markdown']
-        if commentStatus == "true":
-            commentStatus = True
-        elif commentStatus == "false":
-            commentStatus = False
-        if publicStatus == "true":
-            publicStatus = True
-        elif publicStatus == "false":
-            publicStatus = False
+        if comment_status == "true":
+            comment_status = True
+        elif comment_status == "false":
+            comment_status = False
+        if public_status == "true":
+            public_status = True
+        elif public_status == "false":
+            public_status = False
         try:
             sql = models.Article.objects.get(title=title)
             sql.title = title
@@ -167,8 +167,8 @@ def update_article(request):
             for i in range(len(column)):
                 if column[i] not in old_column_list:
                     sql.column.add(column_models.Columns.objects.get(columnId=i))
-            sql.commentStatus = commentStatus
-            sql.publicStatus = publicStatus
+            sql.commentStatus = comment_status
+            sql.publicStatus = public_status
             sql.url = url
             sql.content = content
             sql.markdown = markdown

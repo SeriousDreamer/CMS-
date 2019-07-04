@@ -1,9 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from . import models
-from articleManagement import models as amodels
-from utils.tree import Tree, TreeNode
-from django.db import connection
+
 
 
 # Create your views here.

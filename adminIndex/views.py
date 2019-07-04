@@ -25,7 +25,7 @@ def show_index(request):
 
 @csrf_exempt
 def upload(request):
-    print(request)
+    # markdown上传图片方法
     upload_file = request.FILES['editormd-image-file']
     if request.method == "POST" and upload_file:
         success, message = 0, '上传失败'
