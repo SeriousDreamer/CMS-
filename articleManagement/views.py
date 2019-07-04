@@ -87,8 +87,6 @@ def write_article(request):
             art = art.article_set.create(**dic)
             for i in range(1, len(column)):
                 column_models.Columns.objects.get(columnId=int(column[i])).article_set.add(art)
-            article = models.Article(**dic)
-            article.save()
         except Exception as e:
             print(e)
             return HttpResponse("发布失败")
