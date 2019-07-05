@@ -16,6 +16,7 @@ class Article(models.Model):
     commentStatus = models.BooleanField(verbose_name="是否开启评论", )  # 是否可以评论
     commentId = models.IntegerField(verbose_name="评论", default=0)  # 评论ID
     url = models.TextField(verbose_name="文章url", )  # 文章url
+    available = models.BooleanField(verbose_name='是否可用', default=True)  # 文章是否可用，True代表可用
     column = models.ManyToManyField(Columns)
 
     class Meta:

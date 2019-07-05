@@ -5,6 +5,7 @@ from column import models as column_models
 from django.views.decorators.csrf import csrf_protect
 from column import views as co_views
 from column.views import select_column
+import json
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ def show_index(request):
     :param request:
     :return:
     """
-    articles = models.Article.objects.all()
+    articles = models.Article.objects.filter(available=1)
     dic = {"article": []}
     for article in articles:
         dic['article'].append({'id': article.id, 'title': article.title,
@@ -22,7 +23,8 @@ def show_index(request):
                                'content': article.content, 'time': article.time,
                                'columns': article.column, 'introduction': article.introduction,
                                'publicStatus': article.publicStatus, 'commentStatus': article.commentStatus,
-                               'commentId': article.commentId, 'url': article.url, 'column': article.column.all()})
+                               'commentId': article.commentId, 'url': article.url, 'column': article.column.all(),
+                               'available': article.available})
     return render(request, 'articleList.html', dic)
 
 
@@ -176,3 +178,90 @@ def update_article(request):
             print(e)
             return HttpResponse('更新失败')
 
+
+@csrf_protect
+def remove_article_recycle(request):
+    # 将文章移动到回收站的逻辑操作
+    title = request.POST['title']
+    result = {"status": 0, "message": "移动错误", "id": 0}
+    if title:
+        try:
+            article = models.Article.objects.get(title=title)
+            article.available = False
+            result['status'] = 1
+            result['message'] = '移动成功'
+            result['id'] = article.id
+            article.save()
+            return HttpResponse(json.dumps(result), content_type='application/json')
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps(result), content_type='application/json')
+    else:
+        result['message'] = '没有获取到标题'
+        return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+@csrf_protect
+def recycle_article(request):
+    """
+    返回回收站列表的方法
+    :param request:
+    :return:
+    """
+    articles = models.Article.objects.filter(available=0)
+    dic = {"article": []}
+    for article in articles:
+        dic['article'].append({'id': article.id, 'title': article.title,
+                               'author': article.author, 'image': article.image,
+                               'content': article.content, 'time': article.time,
+                               'columns': article.column, 'introduction': article.introduction,
+                               'publicStatus': article.publicStatus, 'commentStatus': article.commentStatus,
+                               'commentId': article.commentId, 'url': article.url, 'column': article.column.all(),
+                               'available': article.available})
+    return render(request, 'articleList.html', dic)
+
+
+@csrf_protect
+def delete_article(request):
+    title = request.POST['title']
+    result = {"status": 0, "message": "删除错误", "id": 0}
+    if title:
+        try:
+            article = models.Article.objects.get(title=title)
+            result['status'] = 1
+            result['message'] = '删除成功'
+            result['id'] = article.id
+            article.delete()
+            return HttpResponse(json.dumps(result), content_type='application/json')
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps(result), content_type='application/json')
+    else:
+        result['message'] = '没有获取到标题'
+        return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+@csrf_protect
+def recover_article(request):
+    """
+    将文章从回收站恢复的方法
+    :param request:
+    :return:
+    """
+    title = request.POST['title']
+    result = {"status": 0, "message": "恢复错误", "id": 0}
+    if title:
+        try:
+            article = models.Article.objects.get(title=title)
+            article.available = 1
+            result['status'] = 1
+            result['message'] = '恢复成功'
+            result['id'] = article.id
+            article.save()
+            return HttpResponse(json.dumps(result), content_type='application/json')
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps(result), content_type='application/json')
+    else:
+        result['message'] = '没有获取到标题'
+        return HttpResponse(json.dumps(result), content_type='application/json')

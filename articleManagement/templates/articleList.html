@@ -1,39 +1,47 @@
 {% load static %}
 <div class="row articleFun">
-    <a class="btn btn-primary active" role="button" id="articleFun_all">所有文章</a>
+    <a class="btn btn-primary active" role="button" id="articleFun_all" token="{{ csrf_token }}">所有文章</a>
     <a class="btn btn-default active" role="button" id="articleFun_write">写文章</a>
     <a class="btn btn-default active" role="button" id="articleFun_column">分类目录</a>
+    <a class="btn btn-info" role="button" id="articleFun_recycle" status="1">回收站</a>
 </div>
-<p></p>
+<p id="article_result"></p>
 <table class="table table-hover table-responsive table-striped">
-        <tr>
-            <td><input type="checkbox" id="articleMainCheck"></td>
-            <td>标题</td>
-            <td>特色图片</td>
-            <td>作者</td>
-            <td>分类</td>
-            <td>评论</td>
-            <td>日期</td>
-        </tr>
-<style>
-    td{
-        vertical-align: middle !important;
-    }
-</style>
-{% for i in article %}
     <tr>
-        <td><input type="checkbox" name="items" class="articleOtherCheck"></td>
-        <td><a class="articleTitle" urlTarget="{{ i.url }}">{{ i.title }}</a></td>
-        <td><img class="img-thumbnail img-rounded"
-                                                src="{% static 'images/login/background.jpg' %}"
-                                                style="width: 60px;height: 60px;" alt="特色图片"></td>
-        <td><a href="#">{{ i.author }}</a></td>
-        <td><a href="#">{% for i in i.column %}{{ i.name }},{% endfor %}</a></td>
-        <td>{{ i.commentId }}</td>
-        <td>{{ i.time }}</td>
+        <td><input type="checkbox" id="articleMainCheck"></td>
+        <td>标题</td>
+        <td>特色图片</td>
+        <td>作者</td>
+        <td>分类</td>
+        <td>评论</td>
+        <td>日期</td>
+        <td>操作</td>
     </tr>
-
-
-{% endfor %}
+    <style>
+        td {
+            vertical-align: middle !important;
+        }
+    </style>
+    {% for i in article %}
+        <tr id="article{{ i.id }}">
+            <td><input type="checkbox" name="items" class="articleOtherCheck"></td>
+            <td><a class="articleTitle" urlTarget="{{ i.url }}">{{ i.title }}</a></td>
+            <td><img class="img-thumbnail img-rounded"
+                     src="{% static 'images/login/background.jpg' %}"
+                     style="width: 60px;height: 60px;" alt="特色图片"></td>
+            <td><a href="#">{{ i.author }}</a></td>
+            <td><a href="#">{% for i in i.column %}{{ i.name }},{% endfor %}</a></td>
+            <td>{{ i.commentId }}</td>
+            <td>{{ i.time }}</td>
+            <td>
+                {% if i.available == 1 %}
+                    <button class="btn btn-warning remove_recycle" target="{{ i.title }}">移至回收站</button>
+                {% elif i.available == 0 %}
+                    <button class="btn btn-danger remove_recycle" target="{{ i.title }}">删除</button>
+                    <button class="btn btn-primary recoverArticle" target="{{ i.title }}">恢复</button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
 </table>
 <script src="{% static 'js/admin/articleList.js' %}"></script>
