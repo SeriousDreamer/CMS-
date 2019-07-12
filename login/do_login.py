@@ -1,6 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from manager.models import Manager
-import hashlib
+import hashlib, json, jwt, time
+from cms import settings
 
 
 def do_login(request):
@@ -34,6 +35,12 @@ def do_login(request):
             return render(request, 'logins.html', dic)
         # 经过上面验证成功后重定向到后台页面
         res = redirect('/luna/')
-        res.set_cookie('uname',name)
-        res.set_cookie('npwd',spassword)
+        exp = int(time.time() + settings.TOKEN_TIME)
+        payload = {
+            "exp": exp,
+            "username": ctx['uname']
+        }
+        token = jwt.encode(payload, settings.TOKEN_KEY, algorithm="HS256")
+        res.set_cookie('uname', name)
+        res.set_cookie('token', token)
         return res

@@ -24,7 +24,7 @@ SECRET_KEY = 'vg)*dz^k!*adp9q5y(mm(lcff=iu)tc@b1v2ltxg0-$x081@$c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['103.45.174.4','127.0.0.1']
+ALLOWED_HOSTS = ['103.45.174.4', '127.0.0.1']
 
 # Application definition
 
@@ -135,3 +135,6 @@ USE_TZ = True
 # 支持多个文件夹存放静态文件
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
+
+TOKEN_KEY = "abcdef123456"
+TOKEN_TIME = 3600 * 24
