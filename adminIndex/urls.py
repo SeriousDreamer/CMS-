@@ -1,23 +1,29 @@
 from django.conf.urls import url, include
 from . import views
-from articleManagement import views as arViews
-from column import views as coViews
+from articleManagement import views as ar_views
+from column import views as co_views
+from mediaManagement import views as me_views
 
 urlpatterns = [
-    url(r'^web/articleList', arViews.show_index),
-    url(r'^web/writeArticle', arViews.write_article),
-    url(r'^web/updateArticle', arViews.update_article),
-    url(r'^web/removeArticleRecycle', arViews.remove_article_recycle),
-    url(r'^web/recycleArticle', arViews.recycle_article),
-    url(r'^web/deleteArticle', arViews.delete_article),
-    url(r'^web/recoverArticle', arViews.recover_article),
-    url(r'^web/upload', views.upload, name='api-upload-url'),
+    url(r'^web/articleList', ar_views.show_index),
+    url(r'^web/writeArticle', ar_views.write_article),
+    url(r'^web/updateArticle', ar_views.update_article),
+    url(r'^web/removeArticleRecycle', ar_views.remove_article_recycle),
+    url(r'^web/recycleArticle', ar_views.recycle_article),
+    url(r'^web/deleteArticle', ar_views.delete_article),
+    url(r'^web/recoverArticle', ar_views.recover_article),
 ]
 
 urlpatterns += [
-    url(r'^backStage/column', coViews.show_index),
-    url(r'^backStage/addColumn', coViews.add_column),
-    url(r'^backStage/deleteColumn', coViews.delete_column),
+    url(r'^web/mediaList', me_views.media_list),
+    url(r'^web/upload', me_views.upload, name='api-upload-url'),
+    # url(r'^web/upsload', me_views.uploads, name="upload"),
+]
+
+urlpatterns += [
+    url(r'^backStage/column', co_views.show_index),
+    url(r'^backStage/addColumn', co_views.add_column),
+    url(r'^backStage/deleteColumn', co_views.delete_column),
 ]
 
 urlpatterns += [

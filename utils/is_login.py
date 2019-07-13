@@ -12,6 +12,8 @@ def is_login(request):
     """
     uname = request.COOKIES.get('uname')
     token = request.COOKIES.get('token')
+    if not token or not uname:
+        return False
     json_str = jwt.decode(token, settings.TOKEN_KEY, algorithms="HS256")
     if not json_str:
         return False

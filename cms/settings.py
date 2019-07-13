@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'manager',
     'articleManagement',
     'column',
+    'mediaManagement',
 ]
 
 MIDDLEWARE = [
@@ -136,5 +137,9 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
 
+# TOKEN_KEY全局配置
 TOKEN_KEY = "abcdef123456"
 TOKEN_TIME = 3600 * 24
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/upload")
+MEDIA_URL = "/media/"

@@ -20,6 +20,22 @@ $(document).ready(function () {
             }
         });
     });
+    // 资源管理ajax事件
+    $("#mediaList").click(function () {
+        let width = parseInt($("#myTabContent").css("width"));
+        $.ajax({
+            async: true,
+            url: "/luna/web/mediaList",
+            method:"get",
+            data: {
+                "width": width,
+            },
+            success: function (data) {
+                $("#media").html(data);
+                active($("#web"))
+            }
+        })
+    });
 
     function active(obj) {
         let arr = [$('#backStage'), $('#web'), $('#baseIndex')];

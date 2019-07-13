@@ -35,7 +35,7 @@
                     <li><a href="#base" tabindex="-1" data-toggle="tab">基础设置</a></li>
                     <li><a id="articleList" href="#article-list" tabindex="-1" data-toggle="tab">文章管理</a></li>
                     <li><a href="#vip" tabindex="-1" data-toggle="tab">会员管理</a></li>
-                    <li><a href="#static" tabindex="-1" data-toggle="tab">资源管理</a></li>
+                    <li><a id="mediaList" href="#media" tabindex="-1" data-toggle="tab">资源管理</a></li>
                     <li><a href="#comment" tabindex="-1" data-toggle="tab">评论管理</a></li>
                 </ul>
             </li>
@@ -78,10 +78,9 @@
                 <p>这是会员列表管理</p>
                 {% endblock menberLists %}
             </div>
-            <div class="tab-pane fade text-center" id="static">
-                {% block resource %}
-                <p>这是资源管理页面</p>
-                {% endblock resource %}
+            <div class="tab-pane fade text-center" id="media">
+{#                资源管理页面#}
+                <img src="{% static 'images/util/loading.gif' %}">
             </div>
             <div class="tab-pane fade text-center" id="comment">
                 {% block comment %}

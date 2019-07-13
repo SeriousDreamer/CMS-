@@ -15,16 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from adminIndex import views as adminView
+from adminIndex import views as admin_view
 from manager import views as manager
-from login import views as lView
+from login import views as l_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^luna$', adminView.show_index),
+    url(r'^luna$', admin_view.show_index),
     url(r'^luna/', include('adminIndex.urls')),
-    url(r'^logindo$', lView.show_login),
+    url(r'^logindo$', l_view.show_login),
     url(r'^logindo/', include('login.urls')),
     url(r'^add/', manager.add),
-    url(r'^', include('index.urls'))
+
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    url(r'^', include('index.urls')),
 ]
