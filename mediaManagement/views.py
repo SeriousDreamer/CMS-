@@ -16,15 +16,15 @@ from cms import settings
 
 
 def media_list(request):
+    """
+    返回资源管理的页面
+    :param request:
+    :return:
+    """
+    list_type = int(request.GET["type"])
     width = float(request.GET["width"])
     file_obj = models.Media.objects.all()
-    part = 4
-    one_width = round(width / part, 2)
-    dic = {
-        "result": [],
-        "width": str(one_width) + "px",
-        "part": part,
-    }
+    dic = {"result": []}
     for i in file_obj:
         dic["result"].append({
             "id": i.id,
@@ -34,31 +34,37 @@ def media_list(request):
             "url": settings.MEDIA_URL + str(i.url),
             "author": i.author.name,
         })
-
-    # 控制瀑布流
-    height_lis = []
-    width_lis = []
-    for i in range(part):
-        height_lis.append(0)
-        width_lis.append(round(one_width * i, 2))
-    print(width_lis)
-    for i in range(int(len(file_obj) / part) + 3):
-        for n in range(part):
-            min_id = min(height_lis)
-            index = 0
-            for m in range(len(height_lis)):
-                if height_lis[m] == min_id:
-                    index = m
-                    break
-            if (n + i * part) < len(file_obj):
-                dic["result"][n + i * part]["top"] = str(height_lis[index]) + "px"
-                dic["result"][n + i * part]["left"] = str(width_lis[index]) + "px"
-                height = get_height(one_width, dic["result"][n + i * part]["original"])
-                dic["result"][n + i * part]["height"] = "%.2fpx" % height
-                height_lis[index] += round(height, 2)
-    # -----
-    print(dic['width'])
-    return render(request, 'mediaList.html', dic)
+    if list_type == 0:  # 返回瀑布流式 视图
+        part = 4
+        one_width = round(width / part, 2)
+        dic["width"] = str(one_width) + "px"
+        dic["part"] = part
+        # 控制瀑布流
+        height_lis = []
+        width_lis = []
+        for i in range(part):
+            height_lis.append(0)
+            width_lis.append(round(one_width * i, 2))
+        print(width_lis)
+        for i in range(int(len(file_obj) / part) + 3):
+            for n in range(part):
+                min_id = min(height_lis)
+                index = 0
+                for m in range(len(height_lis)):
+                    if height_lis[m] == min_id:
+                        index = m
+                        break
+                if (n + i * part) < len(file_obj):
+                    dic["result"][n + i * part]["top"] = str(height_lis[index]) + "px"
+                    dic["result"][n + i * part]["left"] = str(width_lis[index]) + "px"
+                    height = get_height(one_width, dic["result"][n + i * part]["original"])
+                    dic["result"][n + i * part]["height"] = "%.2fpx" % height
+                    height_lis[index] += round(height, 2)
+        # -----
+        print(dic['width'])
+        return render(request, 'mediaList.html', dic)
+    elif list_type == 1:  # 返回列表式视图
+        pass
 
 
 def get_height(width, original):

@@ -1,8 +1,10 @@
 $(function () {
+    // 上传按钮点击后的方法
     $("#upload-b").click(function () {
         let formData = new FormData();
         let file = $("#uploadFile")[0].files[0];
         formData.append("file", file);
+        // 将图片提交给后台的方法
         $.ajax({
             async: true,
             url: "/luna/web/upload",
@@ -18,8 +20,10 @@ $(function () {
                     async: true,
                     url: "/luna/web/mediaList",
                     method: "get",
+                    // 如果type为0则表明请求的为瀑布流式视图，如果为1则为列表式
                     data: {
                         "width": width,
+                        "type": 0,
                     },
                     success: function (data) {
                         $("#media").html(data);
@@ -30,50 +34,62 @@ $(function () {
         })
     });
 
+    let waterFall = $("#listWater");
+    let listTable = $("#listTable");
+    // 瀑布流按钮点击事件
+    waterFall.click(function () {
+        changeCss(waterFall, listTable);
+        $("#media_div_list").css("display", "none");
+        $("#media_div_water").css("display", "block");
+    });
+    // 列表页按钮点击事件
+    listTable.click(function () {
+        changeCss(listTable, waterFall);
+        $("#media_div_list").css("display", "block");
+        $("#media_div_water").css("display", "none");
+    });
+
+    checkFun($('#mediaMainCheck'), $('.mediaOtherCheck'));
+
+    // 修改显示方式按钮的css样式的方法
+    function changeCss(obg1, obg2) {
+        obg1.css("box-shadow", "1px 1px 1px #000,-1px -1px 1px #000");
+        obg2.css("box-shadow", "");
+    }
+
+    //复选框控制
+    function checkFun(main, other) {
+        main.prop('checked', false);
+        for (let i = 0; i < other.length; i++) {
+            other.eq(i).prop('checked', false);
+        }
+        main.click(function () {
+            if (main.is(":checked")) {
+                for (let i = 0; i < other.length; i++) {
+                    other.eq(i).prop('checked', true);
+                }
+            } else {
+                for (let i = 0; i < other.length; i++) {
+                    other.eq(i).prop('checked', false);
+                }
+            }
+        });
+        other.click(function () {
+            let len = 0;
+            for (let i = 0; i < other.length; i++) {
+                if (other.eq(i).prop('checked')) {
+                    len++;
+                }
+            }
+            if (len == other.length) {
+                main.prop('checked', true);
+            } else {
+                main.prop('checked', false);
+            }
+        });
+    }
+
 
 });
 
-//
-// function waterFall(column, width) {
-//     let imgObj = $(".media_item");
-//     // 获取图片数量
-//     let number = parseInt(imgObj.length);
-//     let part = parseInt(number / column);
-//     // alert(part);
-//     let height = [];
-//     let widths = [];
-//     for (let n = 0; n < column; n++) {
-//         height.push(0);
-//         widths.push(width * n);
-//     }
-//     for (let n = 0; n < part + 10; n++) {
-//         for (let i = 0; i < column; i++) {
-//             // 获取当前行高度最小列的高度
-//             let minId = Math.min.apply(null, height);
-//             // 获取这一列的id值
-//             let index = 0;
-//             for (let m = 0; m < height.length; m++) {
-//                 if (minId === height[m]) {
-//                     index = m;
-//                 }
-//             }
-//             // alert("下标" + index);
-//             if ((i + n * column) < imgObj.length) {
-//                 imgObj.eq(i + n * column).css({
-//                     "top": height[index] + "px",
-//                     "left": widths[index] + "px",
-//                     "visibility": "visible",
-//                     "position": "absolute",
-//                 });
-//                 let beforeHeight = height[index];
-//                 let imageHeight = parseInt(imgObj.eq(i + (n * column)).css("height"));
-//                 height[index] = imageHeight + beforeHeight;
-//
-//                 // alert("当前图片高度" + parseInt(imgObj.eq(i + n * 4).css("height")));
-//                 // alert("列高度" + height);
-//             } else {
-//                 break;
-//             }
-//         }
-//     }
-// }
+

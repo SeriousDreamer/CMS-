@@ -7,11 +7,40 @@
 </div>
 <div class="row text-left">
     <span class="glyphicon glyphicon-th " style="cursor: pointer;
-    border-radius: 5px;box-shadow: 1px 1px 1px #000,-1px -1px 1px #000;padding: 4px;"></span>
-    <span class="glyphicon glyphicon-th-list" style="cursor: pointer"></span>
+    border-radius: 5px;box-shadow: 1px 1px 1px #000,-1px -1px 1px #000;padding: 4px;" id="listWater"></span>
+    <span class="glyphicon glyphicon-th-list" style="cursor: pointer;border-radius: 5px;padding: 4px;"
+          id="listTable"></span>
 </div>
 <p id="uploadStatus"></p>
-<div class="row" id="media_div" style="position: relative" part="{{ part }}" widths="{{ width }}">
+{#表格显示视图#}
+<div class="row" id="media_div_list" style="display: none">
+    <table class="table table-responsive table-hover">
+        <tr>
+            <td><input type="checkbox" id="mediaMainCheck"></td>
+            <td>标题</td>
+            <td>特色图片</td>
+            <td>作者</td>
+            <td>操作</td>
+        </tr>
+        <style>
+            td {
+                vertical-align: middle !important;
+            }
+        </style>
+        {% for i in result %}
+            <tr>
+                <td><input type="checkbox" name="items" class="mediaOtherCheck"></td>
+                <td style="width: 5%">{{ i.name }}</td>
+                <td><img src="{{ i.url }}" style="width: 100px;height: 100px"></td>
+                <td>{{ i.author }}</td>
+                <td><button class="btn btn-danger">删除</button></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+{#瀑布流显示视图#}
+<div class="row" id="media_div_water" style="position: relative" part="{{ part }}" widths="{{ width }}">
     {% for i in result %}
         <img src="{{ i.url }}"
              class="img-responsive img-rounded img-thumbnail media_item"

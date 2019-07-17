@@ -5,6 +5,11 @@ from . import models
 
 # Create your views here.
 def show_index(request):
+    """
+    显示分类目录页面
+    :param request:
+    :return:
+    """
     dic = select_column()
     if dic:
         try:
