@@ -17,7 +17,7 @@ class Article(models.Model):
     commentId = models.IntegerField(verbose_name="评论", default=0)  # 评论ID
     url = models.TextField(verbose_name="文章url", )  # 文章url
     available = models.BooleanField(verbose_name='是否可用', default=True)  # 文章是否可用，True代表可用
-    column = models.ManyToManyField(Columns)
+    column = models.ManyToManyField(Columns)  # 文章分类，多对多
 
     class Meta:
         db_table = 'Article'

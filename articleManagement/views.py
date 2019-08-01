@@ -164,6 +164,9 @@ def update_article(request):
             for i in old_column:
                 old_column_list.append(str(i.columnId))
             # 将更新后的文章id与旧的进行比较，如果有新添加的，就更新
+            """
+            缺少功能：如果有删除分类，则删除
+            """
             for i in range(len(column)):
                 if column[i] not in old_column_list:
                     sql.column.add(column_models.Columns.objects.get(columnId=i))
