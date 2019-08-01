@@ -1,4 +1,39 @@
 $(function () {
+    // 图片删除按钮点击
+    $(".delete_img").click(function () {
+        let img_obj = $(this);
+        let did = img_obj.attr("delete_data");
+        $.ajax({
+            async: true,
+            url: "/luna/web/delete",
+            type: "post",
+            data: {"id": did},
+            success: function (data) {
+                if (data["code"] === 200) {
+                    alert("删除成功");
+                    let width = parseInt($("#myTabContent").css("width"));
+                    $.ajax({
+                        async: false,
+                        url: "/luna/web/mediaList",
+                        method: "get",
+                        // 如果type为0则表明请求的为瀑布流式视图，如果为1则为列表式
+                        data: {
+                            "width": width,
+                            "type": 0,
+                        },
+                        success: function (data) {
+                            $("#media").html(data);
+                            active($("#web"))
+                        }
+                    });
+                } else {
+                    alert("删除失败");
+                }
+
+            }
+        })
+    });
+
     // 上传按钮点击后的方法
     $("#upload-b").click(function () {
         let formData = new FormData();

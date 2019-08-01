@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // 文章列表点击事件
     $('#articleList').click(function () {
         $.ajax({
             async: true,

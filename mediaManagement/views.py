@@ -1,4 +1,6 @@
+import json
 import os
+import random
 import time
 from decimal import Decimal
 from PIL import Image
@@ -22,12 +24,14 @@ def media_list(request):
     :return:
     """
     list_type = int(request.GET["type"])
+    # 当前div的宽度
     width = float(request.GET["width"])
     file_obj = models.Media.objects.all()
     dic = {"result": []}
     for i in file_obj:
         dic["result"].append({
             "id": i.id,
+            "img_id": "img" + str(i.id),
             "name": i.name,
             "date": i.date,
             "original": (i.width, i.height),
@@ -116,3 +120,25 @@ def upload(request):
         return JsonResponse(data)
     else:
         return JsonResponse({'state': 0, 'message': 'Not support method or Can not get file'})
+
+
+@csrf_exempt
+def delete(request):
+    """
+    删除资源文件方法
+    :param request:
+    :return:
+    """
+    result = {"code": 400}
+    if request.method == "POST":
+        did = request.POST['id']
+        img_obj = models.Media.objects.get(id=did)
+        try:
+            img_obj.delete()
+            result["code"] = 200
+            return HttpResponse(json.dumps(result), content_type='application/json')
+        except models.Media as e:
+            print(e)
+            return HttpResponse(json.dumps(result), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps(result), content_type='application/json')

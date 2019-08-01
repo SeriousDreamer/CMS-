@@ -17,6 +17,7 @@ urlpatterns = [
 urlpatterns += [
     url(r'^web/mediaList', me_views.media_list),
     url(r'^web/upload', me_views.upload, name='api-upload-url'),
+    url(r'^web/delete', me_views.delete),
     # url(r'^web/upsload', me_views.uploads, name="upload"),
 ]
 

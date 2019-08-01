@@ -1,4 +1,32 @@
 {% load static %}
+
+
+<!-- 模态框 -->
+{% for i in result %}
+    <div class="modal fade" id="{{ i.img_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改信息</h4>
+                </div>
+                <div class="modal-body">
+                    <p><span>图片名称:&nbsp&nbsp&nbsp&nbsp</span><input type="text" value="{{ i.name }}"></p>
+                    <p><span>上传时间:&nbsp&nbsp&nbsp&nbsp</span>{{ i.date }}</p>
+                    <p>作者:{{ i.author }}</p>
+                    <img src="{{ i.url }}" alt="图片炸了" style="width: 500px;height: 300px;" class="img-responsive img-fluid center-block">
+                    <p></p>
+                    <button class="btn btn-danger delete_img" delete_data="{{ i.id }}" data-dismiss="modal">删除</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 <div class="row">
     <div id="uploadForm">
         <input type="file" name="file" id="uploadFile" style="display: inline-block">
@@ -33,7 +61,9 @@
                 <td style="width: 5%">{{ i.name }}</td>
                 <td><img src="{{ i.url }}" style="width: 100px;height: 100px"></td>
                 <td>{{ i.author }}</td>
-                <td><button class="btn btn-danger">删除</button></td>
+                <td>
+                    <button class="btn btn-danger delete_img" delete_data="{{ i.id }}">删除</button>
+                </td>
             </tr>
         {% endfor %}
 
@@ -46,7 +76,8 @@
              class="img-responsive img-rounded img-thumbnail media_item"
              alt="" name="{{ i.id }}"
              style="width: {{ width }};position: absolute;
-                     top:{{ i.top }};left:{{ i.left }}">
+                     top:{{ i.top }};left:{{ i.left }};cursor:pointer" data-toggle="modal"
+             data-target="#{{ i.img_id }}">
     {% endfor %}
 </div>
 <script src="{% static 'js/admin/mediaList.js' %}"></script>
