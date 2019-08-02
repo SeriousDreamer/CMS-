@@ -37,7 +37,7 @@ $(function () {
 
         $.ajax({
             async: true,
-            method: "get",
+            type: "get",
             url: '/luna/web/updateArticle',
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -92,7 +92,7 @@ $(function () {
         if ($(this).text() === "删除") {
             $.ajax({
                 async: true,
-                method: "post",
+                type: "post",
                 data: {
                     csrfmiddlewaretoken: token,
                     'title': title
@@ -114,7 +114,7 @@ $(function () {
         } else if ($(this).text() === "移至回收站") {
             $.ajax({
                 async: true,
-                method: "post",
+                type: "post",
                 data: {
                     csrfmiddlewaretoken: token,
                     'title': title
@@ -140,7 +140,7 @@ $(function () {
         if (status === "1") {
             $.ajax({
                 async: true,
-                method: 'get',
+                type: 'get',
                 url: '/luna/web/recycleArticle',
                 success: function (data) {
                     $('#article-list').html(data);
@@ -170,7 +170,7 @@ $(function () {
         let token = $('#articleFun_all').attr('token');
         $.ajax({
             async: true,
-            method: "post",
+            type: "post",
             data: {
                 csrfmiddlewaretoken: token,
                 'title': title

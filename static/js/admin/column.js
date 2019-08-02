@@ -7,7 +7,7 @@ $(document).ready(function () {
         // 通过ajax将数据发送addColumn页面，交给后台的添加数据函数处理
         $.ajax({
             async: true,
-            method: "post",
+            type: "post",
             url: 'luna/backStage/addColumn',
             data: {
                 csrfmiddlewaretoken: token,
@@ -16,7 +16,9 @@ $(document).ready(function () {
             },
             success: function (data) {
                 // 等到数据成功添加后，动态的刷新目录列表页面
-                successResult(data)
+                if(data.status===200){
+                        successResult(data.result)
+                }
             }
         });
     });
@@ -62,7 +64,7 @@ $(document).ready(function () {
             // 向后台发送分类名称数据的ajax
             $.ajax({
                 async: true,
-                method: 'post',
+                type: 'post',
                 url: 'luna/backStage/addColumn',
                 data: {
                     csrfmiddlewaretoken: token,
@@ -71,7 +73,9 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     // 等到数据成功添加后，动态的刷新目录列表页面
-                    successResult(data)
+                    if(data.status===200){
+                        successResult(data.result)
+                    }
                 },
                 error: function () {
                     alert("添加失败")
@@ -90,13 +94,13 @@ $(document).ready(function () {
         }
     }
 
-    function successResult(data) {
+    function successResult(returnData) {
         // 这个是重新加载列表页的ajax函数
         $.ajax({
             async: true,
-            method: "get",
+            type: "get",
             data: {
-                'data': data //这里的data是外层ajax执行成功后返回的数据
+                'data': returnData //这里的data是外层ajax执行成功后返回的数据
             },
             url: "/luna/backStage/column",
             success: function (data) {
@@ -111,7 +115,7 @@ $(document).ready(function () {
         let token = $('input[name="top_column"]').attr('token');
         $.ajax({
             async: true,
-            method: 'post',
+            type: 'post',
             url: 'luna/backStage/deleteColumn',
             data: {
                 csrfmiddlewaretoken: token,

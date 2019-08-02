@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from . import models
@@ -63,15 +65,19 @@ def add_column(request):
     if parent_name:
         parent_name = int(parent_name)
     dic = {"name": column_name, 'parent': parent_name}
+    result = {"status": 400, "result": "添加失败"}
     if not dic['name']:
-        return HttpResponse("请输入栏目名称")
+        result["result"] = "请输入栏目名称"
+        return HttpResponse(json.dumps(result), content_type='application/json')
     try:
         spl = models.Columns(**dic)
         spl.save()
-        return HttpResponse("添加成功")
+        result['status'] = 200
+        result['result'] = "添加成功"
+        return HttpResponse(json.dumps(result), content_type='application/json')
     except Exception as e:
         print(e)
-        return HttpResponse("添加失败")
+        return HttpResponse(json.dumps(result), content_type='application/json')
 
 
 @csrf_protect

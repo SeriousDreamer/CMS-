@@ -27,7 +27,7 @@ $(document).ready(function () {
         $.ajax({
             async: true,
             url: "/luna/web/mediaList",
-            method: "get",
+            type: "get",
             // 如果type为0则表明请求的为瀑布流式视图，如果为1则为列表式
             data: {
                 "width": width,
