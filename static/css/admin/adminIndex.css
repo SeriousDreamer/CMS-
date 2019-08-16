@@ -5,50 +5,74 @@ ul, li, a {
     list-style: none;
     color: black;
 }
-#myTab{
+
+#myTab {
     margin-top: 10px;
 }
-#myTabContent{
+
+#myTabContent {
     margin-top: 20px;
 }
-.articleFun a{
+
+.articleFun a {
     margin-left: 10px;
 }
-#writeArticleTitle,#writeArticleIntroduction{
+
+#writeArticleTitle, #writeArticleIntroduction {
     margin-bottom: 10px;
 }
-#writeArticleTitle .col-md-10 input{
+
+#writeArticleTitle .col-md-10 input {
     vertical-align: middle;
     line-height: 35px;
     width: 100%;
     margin-top: 10px;
 }
-#writeArticleIntroduction{
+
+#writeArticleIntroduction {
 
 }
-#writeArticleIntroduction .col-md-2 h3{
+
+#writeArticleIntroduction .col-md-2 h3 {
     line-height: 70px;
 }
-#writeArticleIntroduction .col-md-10 input{
+
+#writeArticleIntroduction .col-md-10 input {
     vertical-align: middle;
     line-height: 100px;
     width: 100%;
 }
-#writeArticleColumn li{
+
+#writeArticleColumn li {
     margin: 10px;
 }
-#writeArticleColumn li span{
+
+#writeArticleColumn li span {
     margin-left: 10px;
 }
-#draft{
+
+#draft {
     margin-left: 10px;
 }
-.writeArticleStatus{
+
+.writeArticleStatus {
     margin-left: 5px;
 }
-#commentStatus{
+
+#commentStatus {
     margin-left: 10px;
 }
-#writeArticleOther{
+
+#writeArticleOther {
     margin-bottom: 10px;
+}
+
+#featuredPictureModalBox {
+    width: 1000px;
+}
+
+#featuredPictureModalBoxContent {
+    height: 800px;
+    overflow: hidden;
+    overflow-y: scroll;
 }

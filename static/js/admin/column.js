@@ -8,7 +8,7 @@ $(document).ready(function () {
         $.ajax({
             async: true,
             type: "post",
-            url: 'luna/backStage/addColumn',
+            url: '/luna/backStage/addColumn',
             data: {
                 csrfmiddlewaretoken: token,
                 'columnName': columnName,
@@ -65,7 +65,7 @@ $(document).ready(function () {
             $.ajax({
                 async: true,
                 type: 'post',
-                url: 'luna/backStage/addColumn',
+                url: '/luna/backStage/addColumn',
                 data: {
                     csrfmiddlewaretoken: token,
                     'columnName': columnName.val(),
@@ -116,7 +116,7 @@ $(document).ready(function () {
         $.ajax({
             async: true,
             type: 'post',
-            url: 'luna/backStage/deleteColumn',
+            url: '/luna/backStage/deleteColumn',
             data: {
                 csrfmiddlewaretoken: token,
                 'columnId': columnId

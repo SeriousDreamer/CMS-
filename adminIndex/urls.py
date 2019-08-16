@@ -15,7 +15,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^web/mediaList', me_views.media_list),
+    url(r'^web/mediaList', me_views.media_list, name='get_media_list'),
     url(r'^web/upload', me_views.upload, name='api-upload-url'),
     url(r'^web/delete', me_views.delete),
     # url(r'^web/upsload', me_views.uploads, name="upload"),
@@ -23,7 +23,7 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^backStage/column', co_views.show_index),
-    url(r'^backStage/addColumn', co_views.add_column),
+    url(r'^backStage/addColumn$', co_views.add_column, name='addColumn'),
     url(r'^backStage/deleteColumn', co_views.delete_column),
 ]
 

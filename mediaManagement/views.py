@@ -66,7 +66,11 @@ def media_list(request):
                     height_lis[index] += round(height, 2)
         # -----
         print(dic['width'])
-        return render(request, 'mediaList.html', dic)
+        page = int(request.GET["page"])
+        if page == 0:
+            return render(request, 'media.html', dic)
+        else:
+            return render(request, 'mediaList.html', dic)
     elif list_type == 1:  # 返回列表式视图
         pass
 

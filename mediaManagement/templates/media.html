@@ -1,0 +1,10 @@
+<div class="row" id="media_div_water" style="position: relative" part="{{ part }}" widths="{{ width }}">
+    {% for i in result %}
+        <img src="{{ i.url }}"
+             class="img-responsive img-rounded img-thumbnail media_item_article"
+             alt="" name="{{ i.id }}"
+             style="width: {{ width }};position: absolute;
+                     top:{{ i.top }};left:{{ i.left }};cursor:pointer" data-toggle="modal"
+             data-target="#{{ i.img_id }}">
+    {% endfor %}
+</div>

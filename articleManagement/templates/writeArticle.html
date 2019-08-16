@@ -61,6 +61,60 @@
             <button class="btn btn-primary" id="releaseArticle">发布</button>
         {% endif %}
     </div>
+    {#    模态框#}
+    <div class="modal fade" id="featuredImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" id="featuredPictureModalBox">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">特色图片</h4>
+                </div>
+                <div class="modal-body" id="featuredPictureModalBoxContent">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#localUpload" data-toggle="tab">本地上传</a>
+                        </li>
+                        <li>
+                            <a href="#mediaLibrary" data-toggle="tab" id="mediaImageStorageLocation">
+                                媒体库选择</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="localUpload">
+                            本地上传
+                        </div>
+                        <div class="tab-pane fade " id="mediaLibrary">
+                            <button class="btn btn-warning" id="openTheMediaLibrary">打开媒体库</button>
+                        </div>
+
+                    </div>
+                    <script>
+                        $(function () {
+                            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                                // 获取已激活的标签页的名称
+                                var activeTab = $(e.target).text();
+                                // 获取前一个激活的标签页的名称
+                                var previousTab = $(e.relatedTarget).text();
+                                $(".active-tab span").html(activeTab);
+                                $(".previous-tab span").html(previousTab);
+                            });
+                        });
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="selectFeaturedImage">选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    模态框#}
+    <div class="col-md-6">
+        <button class="btn btn-danger" data-toggle="modal"
+                data-target="#featuredImage" id="uploadFeaturedImage">上传特色图片
+        </button>
+    </div>
     <script>
         $('#public').click(function () {
             if ($(this).is(":checked")) {
@@ -88,63 +142,7 @@
         <textarea style="display:none;">{{ markdown }}</textarea>
     </div>
 </div>
-<script>
-    function articleFun(method) {
-        {#获取文章标题#}
-        let title = $("input[name = 'title']").val();
-        {#获取文章摘要#}
-        let introduction = $("input[name = 'introduction']").val();
-        {#获取文章url#}
-        let url = $("input[name = 'articleUrl']").val();
-        {#获取文章发布状态#}
-        let publicStatus = true;
-        if ($('#public').is(":checked")) {
-            publicStatus = true;
-        } else {
-            publicStatus = false;
-        }
-        {#获取文章评论状态#}
-        let commentStatus = true;
-        if ($('#commentStatus').is(":checked")) {
-            commentStatus = true
-        }
-        {#获取分类目录#}
-        let column = "";
-        for (let i = 0; i < $('.writeArticleColumn').length; i++) {
-            if ($('.writeArticleColumn').eq(i).is(":checked")) {
-                column = column + $('.writeArticleColumn').eq(i).val() + ",";
-            }
-        }
-        {#获取文章内容#}
-        let content = $('.markdown-body').html();
-        {#获取文章原始markdown语法内容#}
-        let markdown = $('#editor textarea').html();
-        $.ajax({
-            async: true,
-            type: 'POST',
-            url: "/luna/web/" + method,
-            data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                "title": title, "introduction": introduction,
-                "column": column, "commentStatus": commentStatus,
-                "publicStatus": publicStatus, "url": url,
-                "content": content, "markdown": markdown
-            },
-            success: function (data) {
-                $('#result').html(data)
-            }
-        });
-    }
-
-    {#发布文章按钮点击事件#}
-    $('#releaseArticle').click(function () {
-        articleFun("writeArticle");
-    });
-    {#更新文章按钮点击事件#}
-    $('#updateArticle').click(function () {
-        articleFun("updateArticle")
-    })
-</script>
+<script src="{% static 'js/admin/writeArticle.js' %}"></script>
 <script src="{% static 'markdown/editormd.min.js' %}"></script>
 <script type="text/javascript">
     $(function () {
@@ -158,7 +156,7 @@
             markdown: mark,     // dynamic set Markdown text
             path: "/static/markdown/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
             imageUpload: true, //开启图片上传
-            imageFormats: ['jpg','jpeg','png','bmp','gif'], //设置支持的图片格式
+            imageFormats: ['jpg', 'jpeg', 'png', 'bmp', 'gif'], //设置支持的图片格式
             imageUploadURL: "{% url 'api-upload-url' %}", //设置处理图片上传的后端URL地址
         });
     });
